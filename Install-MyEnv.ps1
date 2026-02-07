@@ -163,7 +163,7 @@ if ($armGccPath) {
     }
 } else {
     Write-Host "⚠️ 未检测到arm-none-eabi-gcc，请下载官方版本：" -ForegroundColor $Yellow
-    Write-Host "   https://developer.arm.com/tools-software/open-source-software/developer-tools/gnu-toolchain/gnu-arm-embedded" -ForegroundColor $Yellow
+    Write-Host "   https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads" -ForegroundColor $Yellow
 }
 
 # ===================== 步骤4：配置ARM_GCC_PATH（纯5.1语法） =====================
