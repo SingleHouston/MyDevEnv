@@ -17,18 +17,40 @@ param(
 )
 
 # ===================== 初始化配置 =====================
+$Blue = "Blue"
 $Green = "Green"
 $Yellow = "Yellow"
 $Red = "Red"
 $Cyan = "Cyan"
+$White = "White"
+'''
+    -ForegroundColor [<System.ConsoleColor>]
+        Specifies the text color. There is no default. The acceptable values for this parameter are:
 
+        - `Black`
+        - `DarkBlue`
+        - `DarkGreen`
+        - `DarkCyan`
+        - `DarkRed`
+        - `DarkMagenta`
+        - `DarkYellow`
+        - `Gray`
+        - `DarkGray`
+        - `Blue`
+        - `Green`
+        - `Cyan`
+        - `Red`
+        - `Magenta`
+        - `Yellow`
+        - `White`
+'''
 # 强制解析~为实际路径（解决5.1路径解析bug）
 $actualHome = [Environment]::GetFolderPath("MyDocuments").Replace("\Documents", "")
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 Write-Host "`n===== 环境部署初始化 =====`n" -ForegroundColor $Cyan
-Write-Host "当前执行权限：$(if ($isAdmin) { "管理员" } else { "普通用户" })" -ForegroundColor $Yellow
-Write-Host "ARM_GCC_PATH默认配置：$ARM_GCC_Path`n" -ForegroundColor $Yellow
+Write-Host "当前执行权限：$(if ($isAdmin) { "管理员" } else { "普通用户" })" -ForegroundColor $White
+Write-Host "ARM_GCC_PATH默认配置：$ARM_GCC_Path`n" -ForegroundColor $White
 
 # ===================== 步骤1：永久取消where别名 =====================
 Write-Host "===== 步骤1：取消where别名（优先调用where.exe）=====`n" -ForegroundColor $Cyan
@@ -37,7 +59,7 @@ try {
         Remove-Item Alias:where -Force -ErrorAction Stop
         Write-Host "✅ 已成功取消where别名" -ForegroundColor $Green
     } else {
-        Write-Host "ℹ️ where别名已取消，无需重复操作" -ForegroundColor $Yellow
+        Write-Host "ℹ️ where别名已取消，无需重复操作" -ForegroundColor $White
     }
 } catch {
     Write-Host "❌ 取消where别名失败：$_" -ForegroundColor $Red
@@ -53,7 +75,7 @@ try {
     # 创建目录（5.1原生md命令）
     if (-not (Test-Path $profileDir)) {
         md $profileDir -Force | Out-Null
-        Write-Host "ℹ️ 已创建PROFILE目录：$profileDir" -ForegroundColor $Yellow
+        Write-Host "ℹ️ 已创建PROFILE目录：$profileDir" -ForegroundColor $White
     }
 
     # 提示符函数（纯5.1语法，无三元运算符、无复杂语法）
@@ -103,7 +125,7 @@ function prompt {
     Write-Host "✅ 提示符已生效：$(prompt)" -ForegroundColor $Green
 } catch {
     Write-Host "❌ 配置提示符失败：$_" -ForegroundColor $Red
-    Write-Host "ℹ️ 手动修复：新建$profilePath，粘贴上述promptScript内容" -ForegroundColor $Yellow
+    Write-Host "ℹ️ 手动修复：新建$profilePath，粘贴上述promptScript内容" -ForegroundColor $White
 }
 
 # ===================== 步骤3：检测并配置工具链（移除三元运算符） =====================
@@ -125,7 +147,7 @@ function Test-Toolchain {
 $gccPath = Test-Toolchain -ToolName "gcc"
 if ($gccPath) {
     $gccDir = Split-Path $gccPath -Parent
-    Write-Host "ℹ️ 检测到GCC：$gccPath" -ForegroundColor $Yellow
+    Write-Host "ℹ️ 检测到GCC：$gccPath" -ForegroundColor $White
     if ($env:PATH -notlike "*$gccDir*") {
         # 5.1用if-else替代三元运算符
         if ($isAdmin) {
@@ -137,17 +159,17 @@ if ($gccPath) {
         $env:PATH += ";$gccDir"
         Write-Host "✅ 已添加GCC路径到$pathType级PATH" -ForegroundColor $Green
     } else {
-        Write-Host "ℹ️ GCC路径已在PATH中" -ForegroundColor $Yellow
+        Write-Host "ℹ️ GCC路径已在PATH中" -ForegroundColor $White
     }
 } else {
-    Write-Host "⚠️ 未检测到GCC，建议安装MSYS2（https://www.msys2.org/）" -ForegroundColor $Yellow
+        Write-Host "⚠️ 未检测到GCC，建议安装MSYS2（https://www.msys2.org/）`nℹ️ 先更新包数据库（可选但推荐，避免包版本不匹配）pacman -Sy `nℹ️ 安装gcc核心包（自动确认安装，包含gcc、g++等编译器）pacman -S --noconfirm mingw-w64-x86_64-gcc" -ForegroundColor Yellow
 }
 
 # 检测ARM-GCC
 $armGccPath = Test-Toolchain -ToolName "arm-none-eabi-gcc"
 if ($armGccPath) {
     $armGccDir = Split-Path $armGccPath -Parent
-    Write-Host "ℹ️ 检测到ARM-GCC：$armGccPath" -ForegroundColor $Yellow
+    Write-Host "ℹ️ 检测到ARM-GCC：$armGccPath" -ForegroundColor $White
     if ($env:PATH -notlike "*$armGccDir*") {
         # 5.1用if-else替代三元运算符
         if ($isAdmin) {
@@ -159,7 +181,7 @@ if ($armGccPath) {
         $env:PATH += ";$armGccDir"
         Write-Host "✅ 已添加ARM-GCC路径到$pathType级PATH" -ForegroundColor $Green
     } else {
-        Write-Host "ℹ️ ARM-GCC路径已在PATH中" -ForegroundColor $Yellow
+        Write-Host "ℹ️ ARM-GCC路径已在PATH中" -ForegroundColor $White
     }
 } else {
     Write-Host "⚠️ 未检测到arm-none-eabi-gcc，请下载官方版本：" -ForegroundColor $Yellow
@@ -178,7 +200,7 @@ try {
     $existingARM_GCC = [Environment]::GetEnvironmentVariable("ARM_GCC_PATH", $pathType)
 
     if ($existingARM_GCC -eq $ARM_GCC_Path) {
-        Write-Host "ℹ️ ARM_GCC_PATH已配置：$ARM_GCC_Path" -ForegroundColor $Yellow
+        Write-Host "ℹ️ ARM_GCC_PATH已配置：$ARM_GCC_Path" -ForegroundColor $White
     } else {
         [Environment]::SetEnvironmentVariable("ARM_GCC_PATH", $ARM_GCC_Path, $pathType)
         # 强制刷新当前会话变量
@@ -240,3 +262,6 @@ Write-Host "📌 关键提示：" -ForegroundColor $Yellow
 Write-Host "   1. 重启PowerShell后，所有配置永久生效"
 Write-Host "   2. 若提示符未生效，手动执行：. `$PROFILE"
 Write-Host "   3. 工具链未安装则按提示下载后重新执行脚本`n" -ForegroundColor $Yellow
+
+# 脚本末尾添加：重置控制台所有颜色到系统默认
+[Console]::ResetColor()
