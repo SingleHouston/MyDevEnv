@@ -262,6 +262,7 @@ Write-Host "📌 关键提示：" -ForegroundColor $Yellow
 Write-Host "   1. 重启PowerShell后，所有配置永久生效"
 Write-Host "   2. 若提示符未生效，手动执行：. `$PROFILE"
 Write-Host "   3. 工具链未安装则按提示下载后重新执行脚本`n" -ForegroundColor $Yellow
+Write-Host "   4. GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.`n" -ForegroundColor $White
 
 # 脚本末尾添加：重置控制台所有颜色到系统默认
 [Console]::ResetColor()
