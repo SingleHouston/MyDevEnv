@@ -9,6 +9,7 @@ git --version;echo $delimiter
 # 打开 GitHub 网页
 github
 explorer.exe https://github.com
+explorer.exe https://test.ustc.edu.cn
 cd /d/gitHub/MyDevEnv
 cp -f ~/.bashrc ./
 git status
