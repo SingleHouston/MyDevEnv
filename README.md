@@ -10,3 +10,6 @@ git clone https://gitee.com/你的用户名/MyDevEnv.git D:\gitHub\MyDevEnv
 cd D:\gitHub\MyDevEnv
 .\Install-MyEnv.ps1
 
+# 第三步 配置~/.bashrc
+cp .bashrc ~/.bashrc
+
