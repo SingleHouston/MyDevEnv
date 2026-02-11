@@ -32,7 +32,7 @@ alias grb='git rebase'
 alias grt='git reset'
 alias gs='git status'
 
-open() { # Open folder (null: current path ; $1: convert Unix path to Windows path)
+open() { # Open folder (null: current path ; $1: Unix path or Windows path)
     # 1. 转换当前路径为Windows格式（默认路径）
     local default_path=$(cygpath -w "$(pwd)")
     local path
