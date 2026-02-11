@@ -1,9 +1,8 @@
 # Exported variables
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:$PATH
 # Set aliases 
-alias edit='vim ~/.bashrc'
-alias src='source ~/.bashrc'
-alias open='explorer $(cygpath -w "$(pwd)")'
+alias v='vim ~/.bashrc'
+alias s='source ~/.bashrc'
 alias make='mingw32-make'
 alias ga='git add'
 alias gb='git branch'
@@ -19,10 +18,39 @@ alias gpsh='git push'
 alias grb='git rebase'
 alias grt='git reset'
 alias gs='git status'
+
+open() { # Open folder (null: current path ; $1: convert Unix path to Windows path)
+    # 1. 转换当前路径为Windows格式（默认路径）
+    local default_path=$(cygpath -w "$(pwd)")
+    local path
+
+    # 2. 判断是否传入参数：有则转换参数为Windows路径，无则用默认路径
+    if [ -n "$1" ]; then
+        path=$(cygpath -w "$1")
+    else
+        path=$default_path
+    fi
+
+    # 3. 打开路径（加引号兼容含空格的路径）
+    explorer "$path"
+}
+
+web() { # open the web page, usage: web https://github.com
+    explorer "$1" 
+}
+
+help() { # cmd help info  
+    alias
+    grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
+}
+
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
 if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
-	alias
-	echo "----------------------------- Aliases set done! -----------------------------------------"
+    # 显示一定义的命令行别名
+    alias
+    # 核心命令：查找.bashrc中所有函数定义，显示行号+函数名开头
+    grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
+    echo "----------------------------- Aliases set done! -----------------------------------------"
 else
     # 定义共享分隔符（块内变量，不用local）
     delimiter="------------------------------------------------------------------------------------"
@@ -53,8 +81,10 @@ else
 
     # 常用网站列表
     echo "🔗 Usual websites:"
-    echo "explorer.exe https://github.com"
     echo "explorer.exe https://test.ustc.edu.cn"
+    echo "explorer.exe https://github.com"
+    echo "explorer.exe https://www.msys2.org"
+    echo "explorer.exe https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
     echo "explorer.exe https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205"
     echo "$delimiter"
 
