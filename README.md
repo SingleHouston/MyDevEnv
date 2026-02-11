@@ -13,3 +13,7 @@ cd D:\gitHub\MyDevEnv
 # 第三步 配置~/.bashrc
 cp .bashrc ~/.bashrc
 
+# 第四步 为不同的环境配置vscode插件
+|-- HTML_For_VsCode.md
+|-- Python_For_VsCode.md
+|-- STM32CubeIDE_For_VsCode.md
