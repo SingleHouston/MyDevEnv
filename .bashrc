@@ -1,5 +1,18 @@
 # Exported variables
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:$PATH
+
+usual_utils=("bash -n ~/.bashrc"
+            "cygpath -w/-u"
+	    "pacman -S/-R/-Syu"
+	    "pip install/uninstall/install -U"
+	    "declare -f; type -t;")
+	    
+usual_webs=("https://test.ustc.edu.cn"
+	    "https://github.com"
+	    "https://www.msys2.org"
+	    "https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
+	    "https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
+
 # Set aliases 
 alias v='vim ~/.bashrc'
 alias s='source ~/.bashrc'
@@ -42,6 +55,10 @@ web() { # open the web page, usage: web https://github.com
 help() { # cmd help info  
     alias
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
+    printf "  -usual utils:\n"
+    printf "\t%s\n" "${usual_utils[@]}"
+    printf "  -usual webs:\n"
+    printf "\tweb %s\n" "${usual_webs[@]}"
 }
 
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
@@ -50,7 +67,7 @@ if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
     alias
     # 核心命令：查找.bashrc中所有函数定义，显示行号+函数名开头
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
-    echo "----------------------------- Aliases set done! -----------------------------------------"
+    echo "******************* Source the env and aliases are set done! ****************************"
 else
     # 定义共享分隔符（块内变量，不用local）
     delimiter="------------------------------------------------------------------------------------"
@@ -78,15 +95,6 @@ else
     print_tool_info "gcc"
     print_tool_info "arm-none-eabi-gcc"
     print_tool_info "git"
-
-    # 常用网站列表
-    echo "🔗 Usual websites:"
-    echo "explorer.exe https://test.ustc.edu.cn"
-    echo "explorer.exe https://github.com"
-    echo "explorer.exe https://www.msys2.org"
-    echo "explorer.exe https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
-    echo "explorer.exe https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205"
-    echo "$delimiter"
 
     # 展示MyDevEnv中的md文件（核心修正：去掉local，增加路径校验）
     dev_env_dir="/d/gitHub/MyDevEnv"  # 块内变量，不用local
