@@ -1,7 +1,7 @@
 # Exported variables
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/c/windows/system32:$PATH
 
-dev_env_dir="/d/gitHub_ssh/MyDevEnv"
+dev_env_dir="/d/github_ssh/MyDevEnv"
 
 usual_utils=("bash -n ~/.bashrc"
             "cygpath -w/-u"
