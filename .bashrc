@@ -1,4 +1,4 @@
-# Exported variables
+# Exported variablesssh -T git@github.com
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/c/windows/system32:$PATH
 
 dev_env_dir="/d/github_ssh/MyDevEnv"
@@ -63,7 +63,6 @@ web() { # open the web page, usage: web https://github.com
 
 help() { # cmd help info  
     alias
-    ssh -T git@github.com
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
     printf "  -usual utils:\n"
     printf "\t%s\n" "${usual_utils[@]}"
@@ -98,24 +97,22 @@ else
 
         # 转换路径+查版本+输出分隔符（处理空格路径）
         cygpath -w "$(which "$tool")"
-        "$tool" --version | head -n 1
-        echo "$delimiter"
+        "$tool" --version 
+	echo "$delimiter"
     }
 
     # 调用函数查询工具信息
-    print_tool_info "python"
-    print_tool_info "gcc"
-    print_tool_info "arm-none-eabi-gcc"
     print_tool_info "git"
+    print_tool_info "gcc"
+    print_tool_info "python"
+    print_tool_info "arm-none-eabi-gcc"
 
     # 先校验路径是否非空
     if [[ -z "$dev_env_dir" ]]; then
-        echo "$delimiter"
         echo "⚠️ dev_env_dir is empty!"
         echo "$delimiter"
     elif [ -d "$dev_env_dir" ]; then
         cd "$dev_env_dir" || {
-            echo "$delimiter"
             echo "⚠️ Failed to cd to $dev_env_dir!"
             echo "$delimiter"
             # cd失败时跳过后续git操作
@@ -130,13 +127,17 @@ else
         echo "⚠️ Directory $dev_env_dir not found!"
         echo "$delimiter"
     fi
+    
+    # 验证ssh帐户
+    echo "ssh -T git@github.com:"
+    ssh -T git@github.com
+    echo "$delimiter"
 
     # 更新.bashrc并检查git状态（增加git仓库校验）
     if [[ -d "$dev_env_dir/.git" ]]; then
         cp -f ~/.bashrc "$dev_env_dir/"
         git status
     else
-        echo "$delimiter"
         echo "⚠️ $dev_env_dir is not a Git repository!"
         echo "$delimiter"
     fi
