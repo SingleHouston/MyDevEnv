@@ -36,8 +36,9 @@ alias gl='git log'
 alias gl_1='git log -1'
 alias gpl='git pull'
 alias gpsh='git push'
-alias grb='git rebase'
-alias grt='git reset'
+alias grbs='git rebase'
+alias grmt='git remote -v'
+alias grst='git reset'
 alias gs='git status'
 
 open() { # Open folder (null: current path ; $1: Unix path or Windows path)
@@ -141,8 +142,5 @@ else
 
     # 清理变量（块内变量，unset即可）
     unset delimiter
-
-    WinMTR -i 1 -s 1024 -n github.com &
-    WinMTR -i 1 -s 1024 -n www.yyzlab.com.cn &
 fi
 # ========== 条件判断结束 ==========
