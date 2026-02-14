@@ -63,6 +63,7 @@ web() { # open the web page, usage: web https://github.com
 
 help() { # cmd help info  
     alias
+    ssh -T git@github.com
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
     printf "  -usual utils:\n"
     printf "\t%s\n" "${usual_utils[@]}"
