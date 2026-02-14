@@ -1,5 +1,5 @@
 # Exported variables
-export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:$PATH
+export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/c/windows/system32:$PATH
 
 usual_utils=("bash -n ~/.bashrc"
             "cygpath -w/-u"
@@ -12,6 +12,9 @@ usual_webs=("https://test.ustc.edu.cn"
 	    "https://www.msys2.org"
 	    "https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
 	    "https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
+
+usual_winmtr=("github.com"
+	      "www.yyzlab.com.cn")    
 
 # Set aliases 
 alias v='vim ~/.bashrc'
@@ -59,6 +62,8 @@ help() { # cmd help info
     printf "\t%s\n" "${usual_utils[@]}"
     printf "  -usual webs:\n"
     printf "\tweb %s\n" "${usual_webs[@]}"
+    printf "  -usual winmtr:\n"
+    printf "\twinmtr -i 1 -s 1024 -n %s &\n" "${usual_winmtr[@]}"
 }
 
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
@@ -133,5 +138,8 @@ else
 
     # 清理变量（块内变量，unset即可）
     unset delimiter dev_env_dir
+
+    WinMTR -i 1 -s 1024 -n github.com &
+    WinMTR -i 1 -s 1024 -n www.yyzlab.com.cn &
 fi
 # ========== 条件判断结束 ==========
