@@ -1,6 +1,8 @@
 # Exported variables
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/c/windows/system32:$PATH
 
+dev_env_dir="/d/gitHub_ssh/MyDevEnv"
+
 usual_utils=("bash -n ~/.bashrc"
             "cygpath -w/-u"
 	    "pacman -S/-R/-Syu"
@@ -101,8 +103,6 @@ else
     print_tool_info "arm-none-eabi-gcc"
     print_tool_info "git"
 
-    # 展示MyDevEnv中的md文件（核心修正：去掉local，增加路径校验）
-    dev_env_dir="/d/gitHub/MyDevEnv"  # 块内变量，不用local
     # 先校验路径是否非空
     if [[ -z "$dev_env_dir" ]]; then
         echo "$delimiter"
@@ -114,7 +114,7 @@ else
             echo "⚠️ Failed to cd to $dev_env_dir!"
             echo "$delimiter"
             # cd失败时跳过后续git操作
-            unset delimiter dev_env_dir
+            unset delimiter
             return
         }
         echo "📂 切换到目录：$dev_env_dir"
@@ -137,7 +137,7 @@ else
     fi
 
     # 清理变量（块内变量，unset即可）
-    unset delimiter dev_env_dir
+    unset delimiter
 
     WinMTR -i 1 -s 1024 -n github.com &
     WinMTR -i 1 -s 1024 -n www.yyzlab.com.cn &
