@@ -26,6 +26,7 @@ usual_winmtr=("github.com"
 	      "www.yyzlab.com.cn")    
 
 # Set aliases 
+alias c='cp -f .bashrc ~/.bashrc'
 alias v='vim ~/.bashrc'
 alias s='source ~/.bashrc'
 alias make='mingw32-make'
