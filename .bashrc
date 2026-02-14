@@ -1,6 +1,14 @@
+# 定义行分隔符，宽度84个字符
+delimiter="===================================================================================="
+
 # ssh-agent 自动启动
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
+
+# 测试 SSH 连接 GitHub
+echo "ssh -T git@github.com:"
+ssh -T git@github.com
+echo "$delimiter"
 
 # Exported variablesssh -T git@github.com
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:$PATH
@@ -23,9 +31,10 @@ usual_webs=("https://test.ustc.edu.cn"
 	    "https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
 
 usual_winmtr=("github.com"
-	      "www.yyzlab.com.cn")    
+	      "www.yyzlab.com.cn") 
 
-# Set aliases 
+# Set aliases
+alias c='cp -f .bashrc ~/.bashrc'
 alias v='vim ~/.bashrc'
 alias s='source ~/.bashrc'
 alias make='mingw32-make'
@@ -62,10 +71,10 @@ open() { # Open folder (null: current path ; $1: Unix path or Windows path)
 }
 
 web() { # open the web page, usage: web https://github.com
-    explorer "$1" 
+    explorer "$1"
 }
 
-help() { # cmd help info  
+help() { # cmd help info
     alias
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
     printf "  -usual utils:\n"
@@ -84,8 +93,6 @@ if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
     echo "******************* Source the env and aliases are set done! ****************************"
 else
-    # 定义共享分隔符（块内变量，不用local）
-    delimiter="------------------------------------------------------------------------------------"
 
     # 通用工具信息函数
     print_tool_info() {
@@ -101,7 +108,7 @@ else
 
         # 转换路径+查版本+输出分隔符（处理空格路径）
         cygpath -w "$(which "$tool")"
-        "$tool" --version 
+        "$tool" --version
 	echo "$delimiter"
     }
 
@@ -120,7 +127,6 @@ else
             echo "⚠️ Failed to cd to $dev_env_dir!"
             echo "$delimiter"
             # cd失败时跳过后续git操作
-            unset delimiter
             return
         }
         echo "📂 切换到目录：$dev_env_dir"
@@ -132,21 +138,19 @@ else
         echo "$delimiter"
     fi
     
-    # 验证ssh帐户
-    echo "ssh -T git@github.com:"
-    ssh -T git@github.com
-    echo "$delimiter"
+    # 检查 gh 登录状态
+    gh auth status
 
-    # 更新.bashrc并检查git状态（增加git仓库校验）
+    # 测试列出仓库
+    gh repo list
+
+    # 更新.bashrc并检查git状态
+    echo "$delimiter"
     if [[ -d "$dev_env_dir/.git" ]]; then
         cp -f ~/.bashrc "$dev_env_dir/"
         git status
     else
         echo "⚠️ $dev_env_dir is not a Git repository!"
-        echo "$delimiter"
     fi
-
-    # 清理变量（块内变量，unset即可）
-    unset delimiter
 fi
 # ========== 条件判断结束 ==========
