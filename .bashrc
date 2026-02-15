@@ -31,7 +31,10 @@ usual_webs=("https://test.ustc.edu.cn"
 	    "https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
 
 usual_winmtr=("github.com"
-	      "www.yyzlab.com.cn") 
+	      "www.yyzlab.com.cn"
+	      "43.174.246.25 # 腾讯云新加坡 CDN 节点，面向普通用户的主站前端 / 静态资源 / 虚拟仿真平台入口"
+	      "43.174.247.25 # 腾讯云新加坡 CDN 节点, CDN 集群的备用 / 分流节点"
+	      "39.103.225.56 # 元宇宙实验中心-后台管理系统, 杭州阿里云内地服务器，归属华清远见") 
 
 # Set aliases
 alias c='cp -f .bashrc ~/.bashrc'
