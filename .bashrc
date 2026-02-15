@@ -78,13 +78,16 @@ web() { # open the web page, usage: web https://github.com
 }
 
 help() { # cmd help info
+    echo "$delimiter"
+    echo "开源 = Fork → 分支 → 编码→ PR → Review → 合并(ssh: git@github.com:yt-dlp/yt-dlp.git)"
+    echo "$delimiter"
     alias
     grep -n '^[a-zA-Z0-9_]*() *{' ~/.bashrc
     printf "  -usual utils:\n"
     printf "\t%s\n" "${usual_utils[@]}"
     printf "  -usual webs:\n"
     printf "\tweb %s\n" "${usual_webs[@]}"
-    printf "  -usual winmtr:\n"
+    printf "  -usual winmtr: # git clone git@github.com:leeter/WinMTR-refresh.git\n"
     printf "\twinmtr -i 1 -s 1024 -n %s &\n" "${usual_winmtr[@]}"
 }
 
