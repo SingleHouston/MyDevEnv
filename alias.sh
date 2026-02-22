@@ -1,0 +1,17 @@
+#!/bin/bash
+
+alias ga='git add'
+alias gb='git branch'
+alias gb_r='git branch -r'
+alias gc='git checkout'
+alias gco='git commit'
+alias gd='git diff'
+alias gf='git fetch'
+alias gl='git log'
+alias gl_1='git log -1'
+alias gpl='git pull'
+alias gpsh='git push'
+alias grbs='git rebase'
+alias grmt='git remote -v'
+alias grst='git reset'
+alias gs='git status'
