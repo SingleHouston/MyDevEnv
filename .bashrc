@@ -32,6 +32,8 @@ help() { # cmd help info
     printf "\tweb %s\n" "${usual_webs[@]}"
     printf "  -usual winmtr: # git clone git@github.com:leeter/WinMTR-refresh.git\n"
     printf "\twinmtr -i 1 -s 1024 -n %s &\n" "${usual_winmtr[@]}"
+    printf "  -usual shell cmd:\n"
+    printf "\t%s\n" "${usual_shell}"
     echo "$delimiter$delimiter"
     echo "开源 = Fork → 分支 → 编码→ PR → Review → 合并(ssh: git@github.com:yt-dlp/yt-dlp.git)"
     echo "$delimiter$delimiter"
@@ -56,7 +58,16 @@ usual_winmtr=("github.com"
 	      "www.yyzlab.com.cn"
 	      "43.174.246.25 # 腾讯云新加坡 CDN 节点，面向普通用户的主站前端 / 静态资源 / 虚拟仿真平台入口"
 	      "43.174.247.25 # 腾讯云新加坡 CDN 节点, CDN 集群的备用 / 分流节点"
-	      "39.103.225.56 # 元宇宙实验中心-后台管理系统, 杭州阿里云内地服务器，归属华清远见") 
+	      "39.103.225.56 # 元宇宙实验中心-后台管理系统, 杭州阿里云内地服务器，归属华清远见")
+
+usual_shell="
+        运算符     语法            含义         返回值(真 / 假)	         典型应用场景
+	-z	[[ -z "$var" ]]	检查变量值是否为空字符串 (长度 0) 空→真，非空→假 1. 校验环境变量是否未定义(如 if [ -z "$SSH_AGENT_PID" ])2. 校验函数返回值是否为空
+	-n	[[ -n "$var" ]]	检查变量值是否非空字符串(长度>0) 非空→真，空→假 1. 校验参数是否传入（如 if [ -n "$1" ]) 2. 校验提取的进程名是否有效
+	-S	[[ -S "$file" ]]检查路径是否是套接字文件(socket) 是→真，否→假	校验 ssh-agent 的套接字是否有效（if [ -S "$SSH_AUTH_SOCK" ])
+	-f	[[ -f "$file" ]]检查路径是否是普通文件(非目录)   是→真，否→假	校验私钥 / 公钥文件是否存在(if [ -f "$SSH_PRIVATE_KEY" ])
+	-d	[[ -d "$dir" ]]	检查路径是否是目录	         是→真，否→假	校验目录是否存在(如 if [ -d "$HOME/.ssh" ])
+	-e	[[ -e "$path" ]]检查路径(文件 / 目录)            是否存在	存在→真，不存在→假	通用存在性校验(兼容文件 / 目录 / 套接字)"
 
 # 自定义函数open: 命令行方式打开Windows指定路径	      
 open() { # Open folder (null: current path ; $1: Unix path or Windows path)
