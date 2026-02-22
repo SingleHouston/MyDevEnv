@@ -37,12 +37,6 @@ help() { # cmd help info
     echo "$delimiter$delimiter"
 }
 
-# 测试 SSH 连接 GitHub
-echo "$delimiter$delimiter"
-echo "ssh -T git@github.com:"
-ssh -T git@github.com
-echo "$delimiter$delimiter"
-
 usual_utils=("bash -n ~/.bashrc"
             "cygpath -w/-u"
 	    "pacman -S/-R/-Syu"
