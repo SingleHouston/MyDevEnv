@@ -2,8 +2,9 @@
 
 # 核心配置（根据实际情况修改）
 AGENT_ENV_FILE="$HOME/.ssh/agent.env"   # 保存agent环境变量的文件
-SSH_PRIVATE_KEY="$HOME/.ssh/id_ed25519"     # 私钥文件路径
+SSH_PRIVATE_KEY="$HOME/.ssh/id_ed25519" # 私钥文件路径
 KEY_EXPIRE_SECONDS=3600                 # 密钥超时时间（1小时）
+SSH_AGENT_PID=""                        # 初始化SSH代理进程ID为空
 
 # 函数1：验证ssh-agent环境是否有效（进程存活+通信正常）
 validate_agent_env() {
@@ -17,13 +18,16 @@ validate_agent_env() {
 	env_sock=$(grep -E '^SSH_AUTH_SOCK=' "$AGENT_ENV_FILE" | sed -E 's/^SSH_AUTH_SOCK=([/a-zA-Z0-9._-]+);.*$/\1/')
     fi
 
+    SSH_AGENT_PID="$env_pid"
+    
     # 打印检验存储的AGENT_ENV_FILE内容以及SSH_AGENT_PID
     printf "env_pid=%s, env_sock=%s\n" "$env_pid" "$env_sock"
 
     # 校验1：PID非空 + 进程存在
     if [ -z "$env_pid" ] || ! ps -p "$env_pid" > /dev/null 2>&1; then
         [ -f "$AGENT_ENV_FILE" ] && rm -f "$AGENT_ENV_FILE"
-	printf "\033[31mvalidate_agent_env(): return 1, rm -f the invalid AGENT_ENV_FILE as env_pid( %s ) is null.\n\033[0m" "$env_pid"
+	# 打印红色警告信息
+	printf "\033[31mvalidate_agent_env(): return 1, rm -f the invalid AGENT_ENV_FILE as env_pid( %s ) is null or ps -p %s return false.\n\033[0m" "$env_pid" "$env_pid"
         return 1
     fi
 
@@ -34,10 +38,12 @@ validate_agent_env() {
     if [ "$proc_name" = "ssh-agent" ] && [ -S "$env_sock" ]; then
 	export SSH_AGENT_PID="$env_pid"
         export SSH_AUTH_SOCK="$env_sock"
+	# 打印绿色提示信息
 	printf "\033[32mvalidate_agent_env(): return 0: SSH_AGENT_PID( %s ) has existed, AGENT_ENV_FILE is valid.\n\033[0m" "$env_pid"
         return 0
     else
         [ -f "$AGENT_ENV_FILE" ] && rm -f "$AGENT_ENV_FILE"
+	# 打印红色警告信息
 	printf "\033[31mvalidate_agent_env(): return 1, because proc_name( %s ) isn't ssh-agent or env_sock is %s.\n\033[0m" "$proc_name" "$env_sock"
         return 1
     fi
@@ -61,17 +67,21 @@ is_key_active() {
     # 检查指纹是否在agent活跃列表中
     [ -z "$key_fingerprint" ] && return 1
     ssh-add -l 2>/dev/null | grep -q "$key_fingerprint"
-    return $?
+    return $? # ssh-add -l 2>/dev/null | grep -q "$key_fingerprint"（管道命令整体返回结果）
 }
 
 # ========== 核心主逻辑 ==========
 # 步骤1：确保ssh-agent进程有效运行（避免重复启动）
 if ! validate_agent_env; then
-    # 终止残留无效进程
-    [ -n "$SSH_AGENT_PID" ] && kill "$SSH_AGENT_PID" 2>/dev/null
-    # 启动新agent并保存环境变量（仅保留核心变量）
-    eval "$(ssh-agent -s | tee >(grep -E '^SSH_(AUTH_SOCK|AGENT_PID)=' > "$AGENT_ENV_FILE"))"
-    # 加载新的环境变量
+    [ -n "$SSH_AGENT_PID" ] && kill "$SSH_AGENT_PID" 2>/dev/null && printf "${RED} Kill SSH_AGENT_PID( %s ).\n${RESET}" "$SSH_AGENT_PID"
+    
+    # 直接筛选核心变量，避免进程替换
+    ssh-agent -s | grep -E '^SSH_(AUTH_SOCK|AGENT_PID)=' > "$AGENT_ENV_FILE"
+    # 重新执行ssh-agent -s并eval（获取完整环境变量）
+    eval "$(ssh-agent -s 2>/dev/null)"
+
+    printf "${RED} Restart new ssh-agent -s and redirect to AGENT_ENV_FILE ( %s ).\n${RESET}" "$AGENT_ENV_FILE"
+    cat "$AGENT_ENV_FILE"
     source "$AGENT_ENV_FILE" 2>/dev/null
 fi
 
