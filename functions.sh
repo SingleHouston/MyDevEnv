@@ -149,17 +149,17 @@ function web() { # 自定义函数web: web https://github.com
 }
 
 function usual_utils() { # 打印常用工具命令
-        echo -e "  -usual utils:\n"
-        echo -e "\t${utils[@]}\n"
+        printf "  -usual utils:\n"
+        printf "\t%s\n" "${utils[@]}"
 }
 
 function usual_webs() { # 打印常用网址
-        echo -e "  -usual webs:\n"
-        echo -e "\t${webs[@]}\n"
+        printf "  -usual webs:\n"
+        printf "\t%s\n" "${webs[@]}"
 }
 
 function usual_winmtr() { # 打印网络测试结果
-	echo -e "  -usual winmtr:"
+	printf "  -usual winmtr:\n"
         printf "\twinmtr -i 1 -s 1024 -n %s &\n" "${winmtr[@]}"
         echo -e "ref: git clone git@github.com:leeter/WinMTR-refresh.git"
 }
