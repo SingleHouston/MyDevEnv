@@ -159,9 +159,9 @@ function usual_webs() { # 打印常用网址
 }
 
 function usual_winmtr() { # 打印网络测试结果
-        echo -e "  -usual winmtr:\n"
-        echo -e "  # git clone git@github.com:leeter/WinMTR-refresh.git\n"
-        echo -e "\twinmtr -i 1 -s 1024 -n ${winmtr[@]} &\n"
+	echo -e "  -usual winmtr:"
+        printf "\twinmtr -i 1 -s 1024 -n %s &\n" "${winmtr[@]}"
+        echo -e "ref: git clone git@github.com:leeter/WinMTR-refresh.git"
 }
 
 function usual_shells() { # 打印shell脚本语法

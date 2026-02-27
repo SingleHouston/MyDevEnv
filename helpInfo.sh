@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# 命令手册核心脚本 - help
+# 命令手册核心脚本 - helpInfo
 # 使用方式：
-# 1. 查看所有可用主题：help
-# 2. 查看指定主题所有命令：help git（无关键词时显示该主题全部）
-# 3. 主题内精准检索：help git clone（仅显示含关键词的命令）
+# 1. 查看所有可用主题：helpInfo
+# 2. 查看指定主题所有命令：helpInfo git（无关键词时显示该主题全部）
+# 3. 主题内精准检索：helpInfo git clone（仅显示含关键词的命令）
 
 # ==================== 自定义命令库（按主题分类，可自由扩展） ====================
 declare -A CMD_MANUAL
@@ -48,7 +48,7 @@ get_all_topics() {
 }
 
 # ==================== 核心检索逻辑（适配Windows） ====================
-help() {
+helpInfo() {
   # 处理输入参数（主题 + 二次检索关键词）
   local search_topic="$1"
   local search_keyword="$2"
@@ -60,7 +60,7 @@ help() {
     for topic in "${all_topics[@]}"; do
       echo -e "  $BLUE$topic$RESET"
     done
-    echo -e "\n使用示例：help git（查看Git命令） | help git clone（检索Git的clone命令）"
+    echo -e "\n使用示例：helpInfo git（查看Git命令） | help git clone（检索Git的clone命令）"
     return 0
   fi
 
@@ -189,7 +189,7 @@ git push origin main    # 更新自己的 Fork 仓库
 git branch -d \$BRANCH_NAME  # 删除本地开发分支
 "
 
-# 自定义函数help: 打印帮助信息
+# 自定义函数helpInfo: 打印帮助信息
 function github_steps() { # show the steps for developing in github
     color_echo "PURPLE" "$delimiter"
     color_echo "BLUE" "github CLI下载: ${gh_cli_prep}"
@@ -203,4 +203,4 @@ function github_steps() { # show the steps for developing in github
 }
 
 # 暴露命令到全局
-export -f help
+export -f helpInfo

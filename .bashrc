@@ -26,14 +26,14 @@ fi
 cd "$dev_env_dir"
 
 # 帮助信息在此处扩展添加
-helpList=("alias" "help" "functions" "list_color_functions")
-source ./functions.sh
+helpList=("alias" "helpInfo" "functions" "list_color_functions")
 source ./alias.sh
-source ./help.sh
+source ./helpInfo.sh
+source ./functions.sh
 source ./ssh-agent.sh
 
 # 打印帮助信息
-function helpInfo() { # show help info
+function help() { # show help info
     for item in "${helpList[@]}"; do
         # 彩色输出函数名 + 说明
         color_echo "CYAN" "• ${item}"
@@ -43,7 +43,7 @@ function helpInfo() { # show help info
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
 if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
     # 显示help信息
-    helpInfo
+    help
 else
     # 测试 SSH 连接 GitHub
     echo "$delimiter$delimiter"
