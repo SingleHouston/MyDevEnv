@@ -17,11 +17,173 @@ webs=("https://test.ustc.edu.cn"
       "https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors"
       "https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
 
-winmtr=("github.com"
-        "www.yyzlab.com.cn"
-        "43.174.246.25 # 腾讯云新加坡 CDN 节点，面向普通用户的主站前端 / 静态资源 / 虚拟仿真平台入口"
-        "43.174.247.25 # 腾讯云新加坡 CDN 节点, CDN 集群的备用 / 分流节点"
-        "39.103.225.56 # 元宇宙实验中心-后台管理系统, 杭州阿里云内地服务器，归属华清远见")
+# ================= 函数定义：winmtr测试工具测试常用网址的时延 =================
+
+# 定义 winmtr 测试任务列表（格式："备注|命令"）
+declare -a WINMTR_TASKS=(
+    "测试 github.com 延迟|winmtr -i 1 -s 1024 -n github.com"
+    "测试 www.yyzlab.com.cn 延迟|winmtr -i 1 -s 1024 -n www.yyzlab.com.cn"
+    "测试腾讯云新加坡 CDN 主节点|winmtr -i 1 -s 1024 -n 43.174.246.25"
+    "测试腾讯云新加坡 CDN 备用节点|winmtr -i 1 -s 1024 -n 43.174.247.25"
+    "测试杭州阿里云内地服务器|winmtr -i 1 -s 1024 -n 39.103.225.56"
+)
+
+# 定义退出控制变量
+declare -a EXIT_FLAG=0
+
+# 全局变量：保存默认的 SIGINT 处理逻辑
+DEFAULT_SIGINT_TRAP=""
+
+# 函数：处理 Ctrl+C 信号（仅脚本内生效）
+handle_sigint() {
+    # echo -e "\n\n⚠️  检测到 Ctrl+C，正在退出..."
+    export PS1="$ORIG_PS1"
+    pkill -f "winmtr -i 1 -s 1024 -n" >/dev/null 2>&1
+    echo -e "👋 已退出 winmtr 测试模式，恢复原始提示符"
+    
+    # 恢复系统默认的 SIGINT 处理
+    trap "$DEFAULT_SIGINT_TRAP" SIGINT
+
+    EXIT_FLAG=1
+}
+
+# 函数：初始化信号处理（兼容 Git Bash）
+init_sigint_trap() {
+    # 步骤1：获取当前 SIGINT 的处理规则（兼容单/双引号）
+    local trap_output=$(trap -p SIGINT)
+
+    # 步骤2：按空格分割，提取核心处理规则（兼容所有格式）
+    # 示例输出：trap -- "" SIGINT → 提取 ""；trap -- 'echo test' SIGINT → 提取 'echo test'
+    DEFAULT_SIGINT_TRAP=$(echo "$trap_output" | awk '{print $3}')
+
+    # 步骤3：处理空值（如果默认无自定义处理，设为 "-" 表示恢复默认）
+    if [[ -z "$DEFAULT_SIGINT_TRAP" || "$DEFAULT_SIGINT_TRAP" == '""' || "$DEFAULT_SIGINT_TRAP" == "''" ]]; then
+        DEFAULT_SIGINT_TRAP="-"
+    fi
+
+    # 步骤4：注册自定义 SIGINT 处理
+    trap handle_sigint SIGINT
+}
+
+# 函数：恢复默认信号处理（脚本正常退出时调用）
+restore_sigint_trap() {
+    trap "$DEFAULT_SIGINT_TRAP" SIGINT
+}
+
+# 函数：打印任务列表（仅首次执行时显示）
+show_task_list() {
+    echo -e "\n===== WinMTR 测试任务列表 ====="
+    for index in "${!WINMTR_TASKS[@]}"; do
+        task_note=$(echo "${WINMTR_TASKS[$index]}" | cut -d'|' -f1)
+        echo "[$((index+1))] $task_note"
+    done
+    echo "Input cmd No( 1~${#WINMTR_TASKS[@]}, q/quit ):"
+}
+
+# 函数：执行选中的任务（winmtr 后台运行+重定向输出）
+execute_task() {
+    local selected_num=$1
+    
+    # 退出逻辑
+    if [[ "$selected_num" == "q" || "$selected_num" == "quit" ]]; then
+        export PS1="$ORIG_PS1"
+        pkill -f "winmtr -i 1 -s 1024 -n" >/dev/null 2>&1
+        echo -e "\n👋 退出 winmtr 测试模式"	
+	restore_sigint_trap
+	EXIT_FLAG=1
+	
+	return 0
+    fi
+
+    # 校验数字输入
+    if ! [[ "$selected_num" =~ ^[0-9]+$ ]]; then
+        echo "❌ 错误：请输入数字序号（1~${#WINMTR_TASKS[@]}），或输入 q 退出"
+        return 1
+    fi
+
+    # 校验序号范围
+    local task_index=$((selected_num-1))
+    if [[ $task_index -lt 0 || $task_index -ge ${#WINMTR_TASKS[@]} ]]; then
+        echo "❌ 错误：序号超出范围！有效序号是 1~${#WINMTR_TASKS[@]}"
+        return 1
+    fi
+
+    # 拆分命令和备注
+    task_command=$(echo "${WINMTR_TASKS[$task_index]}" | cut -d'|' -f2)
+    task_note=$(echo "${WINMTR_TASKS[$task_index]}" | cut -d'|' -f1)
+    # 生成临时日志文件（避免 winmtr 输出占用终端）
+    log_file="/tmp/winmtr_${task_index}_$(date +%s).log"
+    # 执行 winmtr：后台运行 + 输出重定向到日志文件
+    nohup $task_command & > "$log_file" 2>&1 &
+    # 下一次的命令输入提示
+    show_task_list
+    echo "------------------------------"
+}
+
+function usual_winmtr() { # 打印网络测试结果
+    # 保存原始提示符
+    export ORIG_PS1="$PS1"
+    
+    # 设置自定义提示符
+    export PS1="usual_winmtr> "
+    
+    # 初始化EXIT_FLAG
+    EXIT_FLAG=0
+    
+    # 初始化信号处理函数: CTRL+C
+    init_sigint_trap
+    
+    # 打印任务列表
+    echo -e "github repo: git clone git@github.com:leeter/WinMTR-refresh.git"
+    show_task_list
+    
+    # 循环读取输入（直到退出）
+    while [[ $EXIT_FLAG -eq 0 ]]; do
+        read -r input  # -r 避免输入特殊字符被转义
+        if [[ -n "$input" && $EXIT_FLAG -eq 0 ]]; then
+            execute_task "$input"
+            # 退出时终止循环
+            if [[ $EXIT_FLAG -eq 1 ]]; then
+                break
+            fi
+        fi
+    done
+
+    # fixme: the log file wasn't generated
+    # echo -e "\n▁▁▁▁ 测试log: $log_file ▁▁▁▁"
+}
+
+# ================================================================
+
+function open() { # 自定义函数open: open ./ or open /d/github_ssh/
+    # 1. 转换当前路径为Windows格式（默认路径）
+    local default_path=$(cygpath -w "$(pwd)")
+    local path
+
+    # 2. 判断是否传入参数：有则转换参数为Windows路径，无则用默认路径
+    if [ -n "$1" ]; then
+        path=$(cygpath -w "$1")
+    else
+        path=$default_path
+    fi
+
+    # 3. 打开路径（加引号兼容含空格的路径）
+    explorer "$path"
+}
+
+function web() { # 自定义函数web: web https://github.com
+    explorer "$1"
+}
+
+function usual_utils() { # 打印常用工具命令
+        printf "  -usual utils:\n"
+        printf "\t%s\n" "${utils[@]}"
+}
+
+function usual_webs() { # 打印常用网址
+        printf "  -usual webs:\n"
+        printf "\t%s\n" "${webs[@]}"
+}
 
 shells=(
 	# @1
@@ -126,43 +288,6 @@ shells=(
 	!\t! func_xxx\t\t判断函数返回值取反\t\t${CYAN}0→true，${RED}非0→false$RESET\t\tf1() { if true return 0; else return 1; fi }; if ! f1; then echo \"f1 return 1\"; fi
 	$RESET	
 	")
-
-
-function open() { # 自定义函数open: open ./ or open /d/github_ssh/
-    # 1. 转换当前路径为Windows格式（默认路径）
-    local default_path=$(cygpath -w "$(pwd)")
-    local path
-
-    # 2. 判断是否传入参数：有则转换参数为Windows路径，无则用默认路径
-    if [ -n "$1" ]; then
-        path=$(cygpath -w "$1")
-    else
-        path=$default_path
-    fi
-
-    # 3. 打开路径（加引号兼容含空格的路径）
-    explorer "$path"
-}
-
-function web() { # 自定义函数web: web https://github.com
-    explorer "$1"
-}
-
-function usual_utils() { # 打印常用工具命令
-        printf "  -usual utils:\n"
-        printf "\t%s\n" "${utils[@]}"
-}
-
-function usual_webs() { # 打印常用网址
-        printf "  -usual webs:\n"
-        printf "\t%s\n" "${webs[@]}"
-}
-
-function usual_winmtr() { # 打印网络测试结果
-	printf "  -usual winmtr:\n"
-        printf "\twinmtr -i 1 -s 1024 -n %s &\n" "${winmtr[@]}"
-        echo -e "ref: git clone git@github.com:leeter/WinMTR-refresh.git"
-}
 
 function usual_shells() { # 打印shell脚本语法
         echo -e "  -usual usage of shells:\n"
