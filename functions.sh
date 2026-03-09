@@ -171,6 +171,49 @@ function open() { # 自定义函数open: open ./ or open /d/github_ssh/
     explorer "$path"
 }
 
+TARGET_DIR="/d/github_ssh"
+function github_repos() {
+    if [ ! -d $TARGET_DIR ]; then
+	echo -e "\033[31m $TARGET_DIR NOT EXISTS!\n"
+	exit 1
+    fi
+	
+    printf " -github_repos:\n"
+    default_path="$(pwd)"
+    # 遍历目标目录下的所有子文件夹
+    for repo_dir in "$TARGET_DIR"/*/; do
+        # 提取仓库名称（去掉路径，只保留文件夹名）
+        repo_name=$(basename "$repo_dir")
+        # 确保路径是绝对路径且无多余斜杠
+        repo_path=$(cd "$repo_dir" && pwd)
+
+        # 打印仓库基本信息（带颜色高亮）
+        echo -e "\033[32m【仓库名称】: $repo_name\033[0m"
+        echo -e "【仓库路径】: $repo_path"
+        echo -e "【远程仓库信息】:"
+
+        # 进入仓库目录并执行git命令
+        cd "$repo_path" || {
+            echo -e "    \033[33m警告：无法进入目录 $repo_path\033[0m"
+            echo -e "\033[37m----------------------------------------------\033[0m\n"
+            continue
+        }
+
+        # 检查是否是Git仓库
+        if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+            # 执行git remote -v，格式化输出
+            git remote -v | grep fetch
+        else
+            echo -e "    \033[33m警告：该文件夹不是Git仓库！\033[0m"
+        fi
+
+        # 分隔线
+        echo -e "\n"
+    done
+
+    cd "$default_path"
+}
+
 function web() { # 自定义函数web: web https://github.com
     explorer "$1"
 }
