@@ -26,6 +26,9 @@ fi
 cd "$dev_env_dir"
 
 # 帮助信息在此处扩展添加
+todoList=(
+	"TODO: 环境必须在/d/github_ssh/MyDevEnv下使用，其他目录下命令失效！"
+)
 helpList=("alias" "helpInfo" "functions" "list_color_functions")
 source ./alias.sh
 source ./helpInfo.sh
@@ -37,6 +40,9 @@ function help() { # show help info
     for item in "${helpList[@]}"; do
         # 彩色输出函数名 + 说明
         color_echo "CYAN" "• ${item}"
+    done
+    for item in "${todoList[@]}"; do
+	color_echo "RED" "⨀ ${item}"
     done
 }
 
