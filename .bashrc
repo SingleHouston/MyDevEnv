@@ -11,7 +11,7 @@ alias make='mingw32-make'
 
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
-export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:$PATH
+export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":$PATH
 
 # 定义行分隔符，宽度84个字符
 delimiter="===================================================================================="
