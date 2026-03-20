@@ -7,6 +7,7 @@ dev_env_dir="/d/github_ssh/MyDevEnv"
 alias c='cp -f .bashrc ~/.bashrc'
 alias v='vim ~/.bashrc'
 alias s='source ~/.bashrc'
+alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 alias make='mingw32-make'
 
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
