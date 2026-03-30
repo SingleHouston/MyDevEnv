@@ -10,9 +10,9 @@ utils=("bash -n ~/.bashrc # 仅解析检查脚本正确性但不执行~/.bashrc"
        "gpg --full-generate-key # 生成GPG密钥对（2.1.17之后的版本）"
        "gpg --list-secret-keys --keyid-format=long # 列出本地所有GPG密钥（查看刚生成的密钥）")
 
-webs=("https://test.ustc.edu.cn"
-      "https://github.com"
+webs=("https://github.com"
       "https://www.msys2.org"
+      "https://www.sharetechnote.com/"
       "https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
       "https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors"
       "https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
