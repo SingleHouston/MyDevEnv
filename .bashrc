@@ -4,9 +4,16 @@
 dev_env_dir="/d/github_ssh/MyDevEnv"
 
 # Set aliases
-alias c='cp -f .bashrc ~/.bashrc'
+alias c='cp -f .bashrc ~/.bashrc' # cp local .bashrc to ~/.bashrc
+alias u='cp -f ~/.bashrc .bashrc' # update local .bashrc with ~/.bashrc
 alias v='vim ~/.bashrc'
 alias s='source ~/.bashrc'
+alias h='help'
+alias f='functions'
+alias uw='usual_webs'
+alias uu='usual_utils'
+alias us='usual_shells'
+alias uw='usual_winmtr'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 alias make='mingw32-make'
 
@@ -30,7 +37,7 @@ cd "$dev_env_dir"
 todoList=(
 	"TODO: 环境必须在/d/github_ssh/MyDevEnv下使用，其他目录下命令失效！"
 )
-helpList=("alias" "helpInfo" "functions" "list_color_functions")
+helpList=("alias" "helpInfo" "functions: f" "list_color_functions")
 source ./alias.sh
 source ./helpInfo.sh
 source ./functions.sh
@@ -42,9 +49,12 @@ function help() { # show help info
         # 彩色输出函数名 + 说明
         color_echo "CYAN" "• ${item}"
     done
+
     for item in "${todoList[@]}"; do
 	color_echo "RED" "⨀ ${item}"
     done
+
+    grep "^alias .*=" ~/.bashrc
 }
 
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
