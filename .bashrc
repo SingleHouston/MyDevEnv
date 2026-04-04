@@ -55,6 +55,8 @@ function help() { # show help info
     done
 
     grep "^alias .*=" ~/.bashrc 
+
+    color_echo "YELLOW" "• type -f NAME"
 }
 
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
