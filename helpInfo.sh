@@ -34,6 +34,9 @@ CMD_MANUAL=(
   ["linux|查看磁盘"]="df -h                                 # 人性化显示磁盘占用"
   ["linux|查看目录大小"]="du -sh 目录名                     # 查看目录总大小"
 
+  # type -a 查询shell命令类型 (主题：type)
+  ["type|查看shell命令类型"]="type_f_NAME()                 # 查看shell常见命令类型"
+
   # Docker 相关（主题：docker）
   ["docker|查看运行容器"]="docker ps                        # 查看正在运行的容器"
   ["docker|查看所有容器"]="docker ps -a                     # 查看所有容器（含停止）"
@@ -119,6 +122,12 @@ helpInfo() {
 }
 
 # ==================== 定义要打印的配置字符串（转义特殊字符）====================
+function type_f_NAME() {
+    color_echo "YELLOW" "* type -f NAME"
+    color_echo "YELLOW" "• type -f function while for in if else do then { } export exit cd source . : ["
+    type -f function while for in if else do then { } export exit cd source . : [
+}
+
 gh_cli_prep="
 # 1. 安装 GitHub CLI（gh）
 # Windows Git Bash 可通过 scoop 安装：scoop install gh

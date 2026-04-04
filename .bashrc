@@ -14,8 +14,8 @@ alias w='usual_webs'
 alias uu='usual_utils'
 alias us='usual_shells'
 alias uw='usual_winmtr'
-alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 alias make='mingw32-make'
+alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
@@ -54,7 +54,7 @@ function help() { # show help info
 	color_echo "RED" "⨀ ${item}"
     done
 
-    grep "^alias .*=" ~/.bashrc
+    grep "^alias .*=" ~/.bashrc 
 }
 
 # ========== 仅Git Bash启动时执行，source时跳过 ==========
