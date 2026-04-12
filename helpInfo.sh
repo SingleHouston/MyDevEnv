@@ -46,7 +46,7 @@ CMD_MANUAL=(
 # ==================== 辅助函数：提取所有可用主题 ====================
 get_all_topics() {
   # 去重并提取所有主题
-  local topics=$(for key in "${!CMD_MANUAL[@]}"; do echo "$key" | cut -d'|' -f1; done | sort -u)
+  local topics=$(for key in "${!CMD_MANUAL[@]}"; do echo "$key" | cut -d'|' -f1; done | sort | uniq)
   echo "$topics"
 }
 
