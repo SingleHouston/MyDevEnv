@@ -13,10 +13,11 @@ utils=("bash -n ~/.bashrc # 仅解析检查脚本正确性但不执行~/.bashrc"
 webs=("web https://github.com"
       "web https://www.msys2.org"
       "web https://www.msys2.org/docs/environments/"
-      "web https://www.sharetechnote.com/"
-      "web https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
-      "web https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors"
-      "web https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205")
+      "web https://www.sharetechnote.com/  # RAN Technology ShareNotes 技术网站"
+      "web https://www.etsi.org/deliver/etsi_ts/138300_138399/  # 3GPP Specification on ETSI 官方 (38 Series)"
+      "web https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads  # arm tool-chain for downloading 官网"
+      "web https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors # colors code"
+      "web https://www.yyzlab.com.cn/aiEliteJobClass/1957271757362696205  # yyzlab - 华清远见")
 
 # ================= 函数定义：winmtr测试工具测试常用网址的时延 =================
 
