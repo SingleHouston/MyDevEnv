@@ -7,7 +7,12 @@ dev_env_dir="/d/github_ssh/MyDevEnv"
 alias c='cp -f .bashrc ~/.bashrc' # cp local .bashrc to ~/.bashrc
 alias u='cp -f ~/.bashrc .bashrc' # update local .bashrc with ~/.bashrc
 alias v='vim ~/.bashrc'
+alias vh='vim $dev_env_dir/helpInfo.sh'
+alias vf='vim $dev_env_dir/functions.sh'
+alias vc='vim ${BASH_LIB_PATH}/color_output.sh'
+alias vssh='vim $dev_env_dir/ssh-agent.sh'
 alias s='source ~/.bashrc'
+alias dli='echo =============================================='
 alias h='help'
 alias f='functions'
 alias w='usual_webs'
