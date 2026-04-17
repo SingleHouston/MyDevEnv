@@ -20,6 +20,7 @@ alias uu='usual_utils'
 alias us='usual_shells'
 alias uw='usual_winmtr'
 alias make='mingw32-make'
+alias package='pacman -Q'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 
 # 自动查找 Git 安装根目录（不写死）
@@ -84,31 +85,30 @@ else
     ssh -T git@github.com
     color_echo "YELLOW" "$delimiter"
 
+    toolLists=("git" "gh" "gcc" "g++" "make" "python" "arm-none-eabi-gcc")
     # 通用工具信息函数
     print_tool_info() {
         local tool="$1"  # 函数内可用local
 
+	echo "$tool:"
         # 检查工具是否存在
         if ! which "$tool" >/dev/null 2>&1; then
-            echo "$delimiter"       	
 	    color_echo "RED" "⚠️ Tool '$tool' not found in PATH!"
-            echo "$delimiter"
             return
         fi
 
         # 转换路径+查版本+输出分隔符（处理空格路径）
         cygpath -w "$(which "$tool")"
         "$tool" --version
-	echo "$delimiter"
     }
 
     # 调用函数查询工具信息
-    print_tool_info "git"
-    print_tool_info "gcc"
-    print_tool_info "g++"
-    print_tool_info "make"    
-    print_tool_info "python"
-    print_tool_info "arm-none-eabi-gcc"
+    echo "$delimiter"
+    for item in "${toolLists[@]}"; do
+        print_tool_info ${item}
+        echo "$delimiter"
+    done
+
 
     # 先校验路径是否非空
     if [[ -z "$dev_env_dir" ]]; then

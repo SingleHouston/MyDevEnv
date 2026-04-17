@@ -130,8 +130,9 @@ function type_f_NAME() {
 
 gh_cli_prep="
 # 1. 安装 GitHub CLI（gh）
-  Windows powershell 通过 scoop 安装：scoop install gh
-  或手动下载：https://github.com/cli/cli/releases
+  Windows powershell 通过 winget install GitHub.cli
+  或手动下载：https://github.com/cli/cli/releases  
+  或 scoop 安装：scoop install gh
   # 安装 scoop in powershell: 
   # ScoopSet-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force; irm get.scoop.sh | iex
 
@@ -145,7 +146,7 @@ gh_cli_prep="
 
 ssh_key_cfg="
 # 1. 生成 SSH 密钥（一路回车，无需设置密码）
-ssh-keygen -t ed25519 -C \"你的GitHub邮箱@xxx.com\"
+ssh-keygen -t ed25519 -C \"wang.shujian@foxmail.com\"
 
 # 2. 启动 SSH 代理并添加密钥
 eval \"\$(ssh-agent -s)\"
