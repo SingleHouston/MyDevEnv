@@ -22,9 +22,17 @@ alias uw='usual_winmtr'
 alias make='mingw32-make'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 
+# 自动查找 Git 安装根目录（不写死）
+# GIT_ROOT=$(dirname "$(which git)")/..
+# MINGW_BIN="$GIT_ROOT"
+
+# 自动添加 Git/mingw64 工具路径
+# export PATH=$MINGW_BIN:$PATH
+# export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
+
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
-export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":$PATH
+export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/d/msys64/ucrt64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":$PATH
 
 # 定义行分隔符，宽度84个字符
 delimiter="============================================================================================="
@@ -41,6 +49,7 @@ cd "$dev_env_dir"
 # 帮助信息在此处扩展添加
 todoList=(
 	"TODO: 环境必须在/d/github_ssh/MyDevEnv下使用，其他目录下命令失效！"
+	"TODO: 动态添加常用工具安装路径到PATH，比如msys64默认安装为 C:\msys64， 也可能在其他盘。"
 )
 helpList=("alias" "helpInfo" "functions: f" "list_color_functions")
 source ./alias.sh
@@ -70,10 +79,10 @@ if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
     help
 else
     # 测试 SSH 连接 GitHub
-    echo "$delimiter$delimiter"
-    echo "ssh -T git@github.com:"
+    color_echo "YELLOW" "$delimiter"
+    color_echo "YELLOW" "ssh -T git@github.com:"
     ssh -T git@github.com
-    echo "$delimiter$delimiter"
+    color_echo "YELLOW" "$delimiter"
 
     # 通用工具信息函数
     print_tool_info() {
@@ -81,8 +90,8 @@ else
 
         # 检查工具是否存在
         if ! which "$tool" >/dev/null 2>&1; then
-            echo "$delimiter"
-            echo "⚠️ Tool '$tool' not found in PATH!"
+            echo "$delimiter"       	
+	    color_echo "RED" "⚠️ Tool '$tool' not found in PATH!"
             echo "$delimiter"
             return
         fi
@@ -96,6 +105,8 @@ else
     # 调用函数查询工具信息
     print_tool_info "git"
     print_tool_info "gcc"
+    print_tool_info "g++"
+    print_tool_info "make"    
     print_tool_info "python"
     print_tool_info "arm-none-eabi-gcc"
 
