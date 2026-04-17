@@ -130,15 +130,17 @@ function type_f_NAME() {
 
 gh_cli_prep="
 # 1. 安装 GitHub CLI（gh）
-# Windows Git Bash 可通过 scoop 安装：scoop install gh
-# 或手动下载：https://github.com/cli/cli/releases
+  Windows powershell 通过 scoop 安装：scoop install gh
+  或手动下载：https://github.com/cli/cli/releases
+  # 安装 scoop in powershell: 
+  # ScoopSet-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force; irm get.scoop.sh | iex
 
 # 2. 登录 gh（关联 GitHub 账号，自动配置 SSH/HTTPS）
-gh auth login
-# 按提示选择：SSH → 生成新密钥 → 登录成功
+  gh auth login
+  # 按提示选择：SSH → 生成新密钥 → 登录成功
 
 # 3. 验证 gh 生效
-gh auth status
+  gh auth status
 "
 
 ssh_key_cfg="

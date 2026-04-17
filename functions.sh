@@ -12,6 +12,7 @@ utils=("bash -n ~/.bashrc # 仅解析检查脚本正确性但不执行~/.bashrc"
 
 webs=("web https://github.com"
       "web https://www.msys2.org"
+      "web https://www.msys2.org/docs/environments/"
       "web https://www.sharetechnote.com/"
       "web https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads"
       "web https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#256-colors"
