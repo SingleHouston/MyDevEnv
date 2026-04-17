@@ -6,12 +6,12 @@ dev_env_dir="/d/github_ssh/MyDevEnv"
 # Set aliases
 alias c='cp -f .bashrc ~/.bashrc' # cp local .bashrc to ~/.bashrc
 alias u='cp -f ~/.bashrc .bashrc' # update local .bashrc with ~/.bashrc
+alias s='source ~/.bashrc'
 alias v='vim ~/.bashrc'
 alias vh='vim $dev_env_dir/helpInfo.sh'
 alias vf='vim $dev_env_dir/functions.sh'
 alias vc='vim ${BASH_LIB_PATH}/color_output.sh'
 alias vssh='vim $dev_env_dir/ssh-agent.sh'
-alias s='source ~/.bashrc'
 alias dli='echo =============================================='
 alias h='help'
 alias f='functions'
@@ -21,6 +21,7 @@ alias us='usual_shells'
 alias uw='usual_winmtr'
 alias make='mingw32-make'
 alias package='pacman -Q'
+alias cdd='cd $dev_env_dir'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 
 # 自动查找 Git 安装根目录（不写死）
