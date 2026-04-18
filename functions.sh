@@ -440,7 +440,7 @@ function vi_cheatsheet() { # vi/vim 常用快捷键查询函数（可直接在�
 }
 
 functions() { # 打印自定义函数
-        color_echo "BLUE" "$(grep '^function [a-zA-Z0-9_]*() *{' ./functions.sh)"
+        color_echo "BLUE" "$(grep '^function [a-zA-Z0-9_]*() *{' $dev_env_dir/functions.sh)"
 }
 
 export functions
