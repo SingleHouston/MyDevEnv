@@ -17,6 +17,12 @@ origin	git@github.com:SingleHouston/MyDevEnv.git (fetch)
 origin	git@github.com:SingleHouston/Windows_AutoHotKey.git (fetch)
 
 
+[32m【仓库名称】: etsi_3gpp_ts[0m
+【仓库路径】: /d/github_ssh/etsi_3gpp_ts
+【远程仓库信息】:
+origin	https://github.com/SingleHouston/etsi_3gpp_ts.git (fetch)
+
+
 [32m【仓库名称】: icons[0m
 【仓库路径】: /d/github_ssh/icons
 【远程仓库信息】:
