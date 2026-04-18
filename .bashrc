@@ -1,27 +1,16 @@
 #!/bin/bash
 
 # 定义行分隔符，宽度84个字符
-delimiter="============================================================================================="
+export delimiter="============================================================================================="
 
 # 默认环境路径
-dev_env_dir="/d/github_ssh/MyDevEnv"
-
-# TODO信息在此处扩展添加
-todoList=(
-	"TODO: 环境必须在/d/github_ssh/MyDevEnv下使用，其他目录下命令失效！"
-	"TODO: 动态添加常用工具安装路径到PATH，比如msys64默认安装为 C:\msys64， 也可能在其他盘。"
-)
-
-# TODO: 自动查找 Git 安装根目录（不写死）
-# GIT_ROOT=$(dirname "$(which git)")/..
-# MINGW_BIN="$GIT_ROOT"
-# 自动添加 Git/mingw64 工具路径
-# export PATH=$MINGW_BIN:$PATH
-# export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
+export dev_env_dir="/d/github_ssh/MyDevEnv"
 
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/d/msys64/ucrt64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":$PATH
+
+cur_path=$PWD
 
 # 每次终端启动自动导入color回显库--color_echo
 if [[ -f "${BASH_LIB_PATH}/color_output.sh" ]]; then
@@ -49,8 +38,8 @@ else
 fi
 
 #############################################################################################
-alias c='cp -f .bashrc ~/.bashrc' # cp local .bashrc to ~/.bashrc
-alias u='cp -f ~/.bashrc .bashrc' # update local .bashrc with ~/.bashrc
+alias c='cp -f $dev_env_dir/.bashrc ~/.bashrc' # cp local .bashrc to ~/.bashrc
+alias u='cp -f ~/.bashrc $dev_env_dir/.bashrc' # update local .bashrc with ~/.bashrc
 alias s='source ~/.bashrc'
 alias a='grep ^alias ~/.bashrc'
 alias f='functions'
@@ -69,15 +58,30 @@ alias vssh='vim $dev_env_dir/ssh-agent.sh'
 alias cdd='cd $dev_env_dir'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 
-source ./alias.sh
-source ./helpInfo.sh
-source ./functions.sh
-source ./ssh-agent.sh
+source $dev_env_dir/alias.sh
+source $dev_env_dir/helpInfo.sh
+source $dev_env_dir/functions.sh
+source $dev_env_dir/ssh-agent.sh
+
+#############################################################################################
+
+# TODO信息在此处扩展添加
+todoList=(
+	"TODO: 动态添加常用工具安装路径到PATH，比如msys64默认安装为 C:\msys64， 也可能在其他盘。"
+)
+
+# TODO: 自动查找 Git 安装根目录（不写死）
+# GIT_ROOT=$(dirname "$(which git)")/..
+# MINGW_BIN="$GIT_ROOT"
+# 自动添加 Git/mingw64 工具路径
+# export PATH=$MINGW_BIN:$PATH
+# export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
+
 
 # help信息在此处扩展添加
 helpList=("alias: a" "helpInfo: hi" "functions: f" "list_color_functions: lc")
 
-############### 打印帮助信息函数
+######################## 打印帮助信息函数  ###############################
 function help() { # show help info
     for item in "${helpList[@]}"; do
         # 彩色输出函数名 + 说明
@@ -97,8 +101,9 @@ function help() { # show help info
 if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
     # 显示help信息
     help
+    cd $cur_path
 else
-    echo "\$PS1=$PS1"
+    color_echo "PURPLE" "\$PS1=$PS1"
     # 测试 SSH 连接 GitHub
     echo "$delimiter"
     color_echo "ORANGE" "ssh -T git@github.com:"
