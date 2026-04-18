@@ -52,16 +52,20 @@ fi
 alias c='cp -f .bashrc ~/.bashrc' # cp local .bashrc to ~/.bashrc
 alias u='cp -f ~/.bashrc .bashrc' # update local .bashrc with ~/.bashrc
 alias s='source ~/.bashrc'
+alias a='grep ^alias ~/.bashrc'
+alias f='functions'
+alias h='help'
+alias hi='helpInfo'
+alias lc='list_color_functions'
+alias w='usual_webs'
+alias uu='usual_utils'
+alias us='usual_shells'
+alias uw='usual_winmtr'
 alias v='vim ~/.bashrc'
 alias vh='vim $dev_env_dir/helpInfo.sh'
 alias vf='vim $dev_env_dir/functions.sh'
 alias vc='vim ${BASH_LIB_PATH}/color_output.sh'
 alias vssh='vim $dev_env_dir/ssh-agent.sh'
-alias h='help'
-alias w='usual_webs'
-alias uu='usual_utils'
-alias us='usual_shells'
-alias uw='usual_winmtr'
 alias cdd='cd $dev_env_dir'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
 
@@ -71,7 +75,7 @@ source ./functions.sh
 source ./ssh-agent.sh
 
 # help信息在此处扩展添加
-helpList=("alias" "helpInfo" "functions" "list_color_functions")
+helpList=("alias: a" "helpInfo: hi" "functions: f" "list_color_functions: lc")
 
 ############### 打印帮助信息函数
 function help() { # show help info

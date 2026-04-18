@@ -29,6 +29,18 @@ origin	https://github.com/SingleHouston/etsi_3gpp_ts.git (fetch)
 origin	git@github.com:SingleHouston/icons.git (fetch)
 
 
+[32m【仓库名称】: linux-command-manual[0m
+【仓库路径】: /d/github_ssh/linux-command-manual
+【远程仓库信息】:
+origin	git@github.com:lefeck/linux-command-manual.git (fetch)
+
+
+[32m【仓库名称】: markdown-plus-plus[0m
+【仓库路径】: /d/github_ssh/markdown-plus-plus
+【远程仓库信息】:
+origin	git@github.com:Edditoria/markdown-plus-plus.git (fetch)
+
+
 [32m【仓库名称】: openclaw[0m
 【仓库路径】: /d/github_ssh/openclaw
 【远程仓库信息】:

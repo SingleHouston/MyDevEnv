@@ -175,7 +175,7 @@ function open() { # 自定义函数open: open ./ or open /d/github_ssh/
 }
 
 TARGET_DIR="/d/github_ssh"
-function github_repos() { # 显示本地的github_repos，如果全的话，建议输出到github_repos.md
+function github_repos() { # 显示本地的github_repos | tee github_repos.md 
     if [ ! -d $TARGET_DIR ]; then
 	echo -e "\033[31m $TARGET_DIR NOT EXISTS!\n"
 	exit 1
@@ -363,12 +363,15 @@ shell_conditions=(
                                                                                               fi
                                                                                               $RESET
         ===============================================================================================================================
-    ")
+    \n")
 	
 function usual_shells() { # 打印shell脚本语法
         echo -e "  -usual usage of shells:\n"
         echo -e "\t${shells[@]}"
 	    printf "${shell_conditions}"
+        color_echo "BLUE" "        -------------------------------------------------"
+        blink_color_echo "BLUE" "        Referenc: tree /d/github_ssh/linux-command-manual"
+        color_echo "BLUE" "        -------------------------------------------------"
 }
 
 function vi_cheatsheet() { # vi/vim 常用快捷键查询函数（可直接在终端输入 vi_cheatsheet 调用）
