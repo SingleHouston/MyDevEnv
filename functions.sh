@@ -2,7 +2,8 @@
 
 source color_output.sh
 
-utils=("bash -n ~/.bashrc # 仅解析检查脚本正确性但不执行~/.bashrc"
+utils=("man bash # show the manual of bash"
+       "bash -n ~/.bashrc # 仅解析检查脚本正确性但不执行~/.bashrc"
        "cygpath -w/-u # 转换成windows/unix路径"
        "pacman -S/-R/-Syu # 在 MSYS2 MINGW64 环境下: 安装/卸载/更新 包"
        "pip install/uninstall/install -U # 安装/卸载/更新 python库"

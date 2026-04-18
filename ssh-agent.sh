@@ -26,8 +26,8 @@ validate_agent_env() {
     # 校验1：PID非空 + 进程存在
     if [ -z "$env_pid" ] || ! ps -p "$env_pid" > /dev/null 2>&1; then
         [ -f "$AGENT_ENV_FILE" ] && rm -f "$AGENT_ENV_FILE"
-	# 打印黄色警告信息
-	printf "${YELLOW}validate_agent_env(): return 1, rm -f the invalid AGENT_ENV_FILE as env_pid( %s ) is null or ps -p %s return false.\n${RESET}" "$env_pid" "$env_pid"
+	    # 打印黄色警告信息
+	    printf "${YELLOW}validate_agent_env(): return 1, rm -f the invalid AGENT_ENV_FILE as env_pid( %s ) is null or ps -p %s return false.\n${RESET}" "$env_pid" "$env_pid"
         return 1
     fi
 
@@ -36,15 +36,15 @@ validate_agent_env() {
 
     # 校验3：进程是ssh-agent + 套接字有效
     if [ "$proc_name" = "ssh-agent" ] && [ -S "$env_sock" ]; then
-	export SSH_AGENT_PID="$env_pid"
+	    export SSH_AGENT_PID="$env_pid"
         export SSH_AUTH_SOCK="$env_sock"
-	# 打印绿色提示信息
-	printf "${GREEN}validate_agent_env(): return 0: SSH_AGENT_PID( %s ) exists, AGENT_ENV_FILE is valid.\n${RESET}" "$env_pid"
+	    # 打印绿色提示信息
+	    printf "${GREEN}validate_agent_env(): return 0: SSH_AGENT_PID( %s ) exists, AGENT_ENV_FILE is valid.\n${RESET}" "$env_pid"
         return 0
     else
         [ -f "$AGENT_ENV_FILE" ] && rm -f "$AGENT_ENV_FILE"
-	# 打印黄色警告信息
-	printf "${YELLOW}validate_agent_env(): return 1, as proc_name( %s ) isn't ssh-agent or env_sock( %s ) isn't socket.\n${RESET}" "$proc_name" "$env_sock"
+	    # 打印黄色警告信息
+	    printf "${YELLOW}validate_agent_env(): return 1, as proc_name( %s ) isn't ssh-agent or env_sock( %s ) isn't socket.\n${RESET}" "$proc_name" "$env_sock"
         return 1
     fi
 }
