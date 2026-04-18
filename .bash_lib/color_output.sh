@@ -100,7 +100,8 @@ function rainbow_blink_forever() {
     fi
 
     (
-        while true; do
+	# while true; do
+        for ((i=0; i<100; i++)); do
             for color in "${RAINBOW_COLORS[@]}"; do
                 echo -ne "\r${BLINK}${BOLD}${color}${content}${RESET}"
                 sleep $delay
@@ -174,7 +175,7 @@ function list_color_functions() {
         [_init_color_vars]="内部函数：初始化颜色变量（无需外部调用）"
         [color_echo]="基础彩色打印（参数：颜色名 内容）"
         [blink_color_echo]="单一颜色闪烁打印（参数：颜色名 内容）"
-        [rainbow_blink_forever]="彩虹色永久闪烁（参数：内容 [切换间隔]）"
+	[rainbow_blink_forever]="彩虹色永久(实际100次)闪烁（参数：内容 [切换间隔]）"
         [stop_rainbow_blink]="停止彩虹色永久闪烁（无参数）"
         [rainbow_blink_then_hold]="限时彩虹闪烁+最后保持颜色（参数：内容 [次数] [间隔] [保持颜色]）"
         [print_color_samples]="打印所有颜色样例（无参数）"

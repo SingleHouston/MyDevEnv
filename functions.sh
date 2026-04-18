@@ -315,28 +315,59 @@ shells=(
           echo \"函数执行失败，重启 ssh-agent\"
           eval \$(ssh-agent -s)  # 重启进程
         fi
-	$RESET"
-
-	# @3
-        "$BOLD$BLUE
-        # @3. 脚本判断运算符
 	$RESET
-	运算符\t语法\t\t\t含义\t\t\t\t\t返回值(真 / 假)\t\t\t\t典型应用场景
-	-z\t[[ -z \"\$var\" ]]\t\t检查变量值是否为空字符串 (长度 0)\t空→真，非空→假\t\t\t1. 校验环境变量是否未定义(如 if [ -z \"\$PID\" ]) 2. 校验函数返回值是否为空
-	-n\t[[ -n \"\$var\" ]]\t\t检查变量值是否非空字符串(长度>0)\t非空→真，空→假\t\t\t1. 校验参数是否传入（如 if [ -n \"\$1\" ]) 2. 校验提取的进程名是否有效
-	-S\t[[ -S \"\$file\" ]]\t检查路径是否是套接字文件(socket)\t是→真，否→假\t\t\t校验 ssh-agent 的套接字是否有效（if [ -S \"\$SOCK\" ])
-	-f\t[[ -f \"\$file\" ]]\t检查路径是否是普通文件(非目录)\t是→真，否→假\t\t\t校验私钥 / 公钥文件是否存在(if [ -f \"\$SSH_PRIVATE_KEY\" ])
-	-d\t[[ -d \"\$dir\" ]]\t\t检查路径是否是目录\t\t\t是→真，否→假\t\t\t校验目录是否存在(如 if [ -d \"\$HOME/.ssh\" ])
-	-e\t[[ -e \"\$path\" ]]\t检查路径(文件 / 目录)是否存在\t存在→真，不存在→假\t\t通用存在性校验(兼容文件 / 目录 / 套接字)
-	\$?\t[ return \$? ]\t\t\$?= 0 → 上一条命令执行成功；\$? ≠ 0→失败\t0→真，非0→假\t\t\t函数/命令执行结果判断（如 if [ \$? -eq 0 ]）
-	eval\t[ eval \"\$(ssh-agent -s)\" ]\t执行字符串里的命令\t\t\t执行成功→0，失败→非0\t\t动态执行命令（如启动ssh-agent）
-	!\t! func_xxx\t\t判断函数返回值取反\t\t${CYAN}0→true，${RED}非0→false$RESET\t\tf1() { if true return 0; else return 1; fi }; if ! f1; then echo \"f1 return 1\"; fi
-	$RESET	
 	")
 
+# 注意: 为了保持下表shell_conditions列打印对齐，变量名长度刻意与打印出的字符串长度人为保证一致
+var="\"\$var\""
+file="\"\$file\""
+dir="\"\$dir\""
+path="\"\$path\""
+ssh_agent_s___="\"\$(ssh-agent -s)\""
+x="\$?"
+return_comment="${CYAN}0→true，${RED}非0→false$RESET"
+shell_conditions=(
+    "$BOLD$BLUE
+        # @3. 脚本判断运算符
+        $RESET
+        运算符    语法                  含义                               返回值(真 / 假)    典型应用场景\n
+        ===============================================================================================================================
+        -z   [[ -z ${var} ]]            检查变量值是否为空字符串 (长度 0)  空→真，非空→假     如 if [ -z \"\$PID\" ]) 返回值是否为空\n
+        -n   [[ -n ${var} ]]            检查变量值是否非空字符串(长度>0)   非空→真，空→假     如 if [ -n \"\$1\" ]) 进程名是否有效\n
+        -S   [[ -S ${file} ]]           检查路径是否是套接字文件(socket)   是→真，否→假       套接字是否有效 if [ -S \"\$SOCK\" ]\n
+        -f   [[ -f ${file} ]]           检查路径是否是普通文件(非目录)     是→真，否→假       私/公钥存在? if [ -f \"\$SSH_PRIVATE_KEY\" ]\n
+        -d   [[ -d ${dir} ]]            检查路径是否是目录                 是→真，否→假       校验目录是否存在 if [ -d \"\$HOME/.ssh\" ]\n
+        -e   [[ -e ${path} ]]           检查路径(文件/目录)是否存在        是→真，否→假       通用存在性校验(兼容文件/目录/套接字)\n         
+        eval [ eval ${ssh_agent__s__} ] 执行字符串里的命令                 成功→0，失败→非0   动态执行命令（如启动ssh-agent）\n
+        $x   [ return $x ]              上一条命令是否执行成功             ${return_comment}  判断执行结果 if [ \$? -eq 0 ]; then\n
+        *******************************************************************************************************************************
+        !    ! func_xxx                 函数返回值取反                     ${return_comment}  函数示例
+                                                                                              function f1()
+                                                                                              {
+                                                                                                 if true
+                                                                                                 ${CYAN}
+                                                                                                     return 0; 
+                                                                                                 $RESET
+                                                                                                 else 
+                                                                                                 ${RED}
+                                                                                                    return 1; 
+                                                                                                 $RESET
+                                                                                                 fi
+                                                                                              }
+                                                                                              
+                                                                                              # 判断f1()返回值
+                                                                                              ${YELLOW}
+                                                                                              if ! f1; then 
+                                                                                                echo \"f1 return 1\"
+                                                                                              fi
+                                                                                              $RESET
+        ===============================================================================================================================
+    ")
+	
 function usual_shells() { # 打印shell脚本语法
         echo -e "  -usual usage of shells:\n"
-        echo -e "\t${shells[@]}\n"
+        echo -e "\t${shells[@]}"
+	    printf "${shell_conditions}"
 }
 
 function vi_cheatsheet() { # vi/vim 常用快捷键查询函数（可直接在终端输入 vi_cheatsheet 调用）
