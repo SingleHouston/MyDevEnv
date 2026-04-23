@@ -128,6 +128,7 @@ else
     # 测试列出仓库
     color_echo "GREEN" "gh repo list:"
     gh repo list
+    gh repo list --json name | jq > gh_repo.json
 
     blink_color_echo "GREEN" "*******  git-bash  *******"
     color_echo "BLUE" "$(cat ~/.minttyrc)"
