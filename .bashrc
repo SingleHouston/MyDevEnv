@@ -65,20 +65,6 @@ source $dev_env_dir/functions.sh
 source $dev_env_dir/ssh-agent.sh
 
 #############################################################################################
-
-# TODO信息在此处扩展添加
-todoList=(
-	"TODO: 动态添加常用工具安装路径到PATH，比如msys64默认安装为 C:\msys64， 也可能在其他盘。"
-)
-
-# TODO: 自动查找 Git 安装根目录（不写死）
-# GIT_ROOT=$(dirname "$(which git)")/..
-# MINGW_BIN="$GIT_ROOT"
-# 自动添加 Git/mingw64 工具路径
-# export PATH=$MINGW_BIN:$PATH
-# export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
-
-
 # help信息在此处扩展添加
 helpList=("alias: a" "helpInfo: hi" "functions: f" "list_color_functions: lc")
 
@@ -92,10 +78,6 @@ function help() { # show help info
     color_echo "CYAN" "• type -f NAME"
     
     grep "^alias .*=" ~/.bashrc 
-
-    for item in "${todoList[@]}"; do
-        color_echo "YELLOW" "⨀ ${item}"
-    done
 }
 
 # ================== 仅Git Bash启动时执行，source时跳过 ==================
