@@ -22,6 +22,7 @@ CMD_MANUAL=(
 
   # github开发步骤
   ["github|github开发流程"]="github_steps()                 # 执行函数查看具体步骤"
+  ["github|github仓库"]="gh repo list                       # 显示github仓库列表 # 输出json格式到文件 --json name | jq > gh_repo.json"
 
   # SSH 相关（主题：ssh）
   ["ssh|生成SSH密钥"]="ssh-keygen -t ed25519 -C xxx@yyy.com # 用ed25519加密算法生成密钥，-C = Comment 通常用邮箱"
