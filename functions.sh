@@ -15,6 +15,7 @@ webs=("web https://github.com"
       "web https://www.msys2.org"
       "web https://www.msys2.org/docs/environments/"
       "web https://www.sharetechnote.com/  # RAN Technology ShareNotes 技术网站"
+	  "web https://www.sharetechnote.com/html/5G/5G_ResourceBlockIndexing.html # SSB, pointA and CORESET0"
 	  "web https://5g-tools.com/5g-nr-throughput-calculator/ # 5g-tools.com "
       "web https://www.etsi.org/deliver/etsi_ts/138300_138399/  # 3GPP Specification on ETSI 官方 (38 Series)"
       "web https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads  # arm tool-chain for downloading 官网"
@@ -363,6 +364,13 @@ shell_conditions=(
                                                                                                 echo \"f1 return 1\"
                                                                                               fi
                                                                                               $RESET
+	# kill ping process if running										      
+        ping_pid=\$(pidof ping) 
+        # 当没有 ping 进程，ping_pid=""（空字符串）
+	# -n 字符串: 判断后面字符串长度 > 0 为真
+        if [ -n \"\$ping_pid\" ] ; then
+            kill \$ping_pid
+        fi						      
         ===============================================================================================================================
     \n")
 	
@@ -371,7 +379,7 @@ function usual_shells() { # 打印shell脚本语法
         echo -e "\t${shells[@]}"
 	    printf "${shell_conditions}"
         color_echo "BLUE" "        -------------------------------------------------"
-        blink_color_echo "BLUE" "        Referenc: tree /d/github_ssh/linux-command-manual"
+        blink_color_echo "BLUE" "        Referenc: git@github.com:liuzi6612/linux-manual.git"
         color_echo "BLUE" "        -------------------------------------------------"
 }
 
