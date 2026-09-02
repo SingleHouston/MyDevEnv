@@ -62,7 +62,7 @@ alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G03
 source $dev_env_dir/alias.sh
 source $dev_env_dir/helpInfo.sh
 source $dev_env_dir/functions.sh
-source $dev_env_dir/ssh-agent.sh
+# source $dev_env_dir/ssh-agent.sh
 
 #############################################################################################
 # help信息在此处扩展添加

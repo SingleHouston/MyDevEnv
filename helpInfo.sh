@@ -5,8 +5,8 @@
 # 1. 查看所有可用主题：helpInfo
 # 2. 查看指定主题所有命令：helpInfo git（无关键词时显示该主题全部）
 # 3. 主题内精准检索：helpInfo git clone（仅显示含关键词的命令）
-
 # ==================== 自定义命令库（按主题分类，可自由扩展） ====================
+
 declare -A CMD_MANUAL
 CMD_MANUAL=(
   # Git 相关（主题：git）
@@ -45,20 +45,18 @@ CMD_MANUAL=(
   ["docker|查看所有容器"]="docker ps -a                     # 查看所有容器（含停止）"
   ["docker|启动容器"]="docker start 容器ID/名称             # 启动指定容器"
 )
-
 # ==================== 辅助函数：提取所有可用主题 ====================
 get_all_topics() {
   # 去重并提取所有主题
   local topics=$(for key in "${!CMD_MANUAL[@]}"; do echo "$key" | cut -d'|' -f1; done | sort | uniq)
   echo "$topics"
 }
-
 # ==================== 核心检索逻辑（适配Windows） ====================
 helpInfo() {
   # 处理输入参数（主题 + 二次检索关键词）
   local search_topic="$1"
   local search_keyword="$2"
-
+  
   # 第一步：无任何参数（仅查看可用主题）
   if [[ -z "$search_topic" ]]; then
     echo -e "$GREEN⁂ 可用命令主题 $delimiter$RESET"

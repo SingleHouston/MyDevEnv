@@ -36,10 +36,10 @@ validate_agent_env() {
 
     # 校验3：进程是ssh-agent + 套接字有效
     if [ "$proc_name" = "ssh-agent" ] && [ -S "$env_sock" ]; then
-	    export SSH_AGENT_PID="$env_pid"
+	export SSH_AGENT_PID="$env_pid"
         export SSH_AUTH_SOCK="$env_sock"
-	    # 打印绿色提示信息
-	    printf "${GREEN}validate_agent_env(): return 0: SSH_AGENT_PID( %s ) exists, AGENT_ENV_FILE is valid.\n${RESET}" "$env_pid"
+	# 打印绿色提示信息
+	printf "${GREEN}validate_agent_env(): return 0: SSH_AGENT_PID( %s ) exists, AGENT_ENV_FILE is valid.\n${RESET}" "$env_pid"
         return 0
     else
         [ -f "$AGENT_ENV_FILE" ] && rm -f "$AGENT_ENV_FILE"
