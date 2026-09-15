@@ -9,6 +9,7 @@ utils=("man bash # show the manual of bash"
        "pip install/uninstall/install -U # 安装/卸载/更新 python库"
        "shopt -s extglob # 开启扩展匹配. e.g. enabled : ls !(pivot_demo.py); rm !(pivot_demo.py)"
        "shopt -u extglob # 关闭扩展匹配. e.g. disabled: ls !(pivot_demo.py); rm !(pivot_demo.py)"
+       "shopt | grep extglob # 显示扩展匹配开关属性: extglob on/off"
        "declare -f; type -t; # 查询util的类型 "
        "gpg --full-generate-key # 生成GPG密钥对（2.1.17之后的版本）"
        "gpg --list-secret-keys --keyid-format=long # 列出本地所有GPG密钥（查看刚生成的密钥）")
