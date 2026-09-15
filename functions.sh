@@ -373,7 +373,19 @@ shell_conditions=(
 	# -n 字符串: 判断后面字符串长度 > 0 为真
         if [ -n \"\$ping_pid\" ] ; then
             kill \$ping_pid
-        fi						      
+        fi
+
+	# read a file for loop
+	# filter out the basic UE IPs in the ${mnsX}_ipv6_all_ue.txt
+	while read -r mnsX; do
+    	    [[ -z \$mnsX ]] && continue
+	
+    	    : > \${mnsX}_\${FILE_GROUP_UE_IP}
+    	    if [[ -f "\$\{mnsX\}_\$\{FILE_ALL_UE_IP\}" ]]; then
+                grep -vxFf \$FILE_BASIC_UE_IP \${mnsX}_\${FILE_ALL_UE_IP} > \${mnsX}_\${FILE_GROUP_UE_IP} || true
+    	    fi
+
+	done < "\$\{FILE_NETNS_NAMES\}"
         ===============================================================================================================================
     \n")
 	
@@ -381,9 +393,9 @@ function usual_shells() { # 打印shell脚本语法
         echo -e "  -usual usage of shells:\n"
         echo -e "\t${shells[@]}"
 	    printf "${shell_conditions}"
-        color_echo "BLUE" "        -------------------------------------------------"
+        color_echo "BLUE" "        -----------------------------------------------------"
         blink_color_echo "BLUE" "        Referenc: git@github.com:liuzi6612/linux-manual.git"
-        color_echo "BLUE" "        -------------------------------------------------"
+        color_echo "BLUE" "        -----------------------------------------------------"
 }
 
 function vi_cheatsheet() { # vi/vim 常用快捷键查询函数（可直接在终端输入 vi_cheatsheet 调用）
