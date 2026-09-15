@@ -7,6 +7,8 @@ utils=("man bash # show the manual of bash"
        "cygpath -w/-u # 转换成windows/unix路径"
        "pacman -S/-R/-Syu # 在 MSYS2 MINGW64 环境下: 安装/卸载/更新 包"
        "pip install/uninstall/install -U # 安装/卸载/更新 python库"
+       "shopt -s extglob # 开启扩展匹配. e.g. enabled : ls !(pivot_demo.py); rm !(pivot_demo.py)"
+       "shopt -u extglob # 关闭扩展匹配. e.g. disabled: ls !(pivot_demo.py); rm !(pivot_demo.py)"
        "declare -f; type -t; # 查询util的类型 "
        "gpg --full-generate-key # 生成GPG密钥对（2.1.17之后的版本）"
        "gpg --list-secret-keys --keyid-format=long # 列出本地所有GPG密钥（查看刚生成的密钥）")
