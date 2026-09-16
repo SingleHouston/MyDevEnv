@@ -69,6 +69,26 @@ source $dev_env_dir/functions.sh
 # source $dev_env_dir/ssh-agent.sh
 
 #############################################################################################
+# 重写 ln 命令：-s 创建目录自动用 Windows Junction，普通权限可用
+ln() {
+    # 检测到 -s 参数时，走 mklink /J 目录联接
+    if [ "$1" = "-s" ]; then
+        src="$2"
+        dest="$3"
+
+        # 把 POSIX 路径转成 Windows 路径（mklink 必须用 Windows 路径）
+        src_win=$(cygpath -w "$src")
+        dest_win=$(cygpath -w "$dest")
+
+	# //c 绕过MSYS路径转换，正确传递 /c 参数给cmd.exe
+        /c/Windows/System32/cmd.exe //c mklink /J "$dest_win" "$src_win"
+    else
+        # 其他参数走原生 ln 命令，保持原有功能
+        command ln "$@"
+    fi
+}
+
+#############################################################################################
 # help信息在此处扩展添加
 helpList=("alias: a" "helpInfo: hi" "functions: f" "list_color_functions: lc")
 
