@@ -6,6 +6,7 @@ export delimiter="==============================================================
 # 默认环境路径
 export dev_env_dir="/d/github_ssh/MyDevEnv"
 
+export MSYS=winsymlinks:nativestrict
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/d/msys64/ucrt64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":/d/github_ssh/python_pandas_csv/kpi_script:$PATH
