@@ -8,7 +8,7 @@ export dev_env_dir="/d/github_ssh/MyDevEnv"
 
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
-export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/d/msys64/ucrt64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":$PATH
+export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/d/msys64/ucrt64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":/d/github_ssh/python_pandas_csv/kpi_script:$PATH
 
 cur_path=$PWD
 
@@ -58,6 +58,9 @@ alias vc='vim ${BASH_LIB_PATH}/color_output.sh'
 alias vssh='vim $dev_env_dir/ssh-agent.sh'
 alias cdd='cd $dev_env_dir'
 alias cd32='cd "/d/Program Files/FS_EMBSIM_LOCAL-V2.4.7/sources/project_STM32G030C8T6_NB860"'
+alias egrep='egrep --color=always'
+alias grep='grep --color=always'
+alias fgrep='fgrep --color=always'
 
 source $dev_env_dir/alias.sh
 source $dev_env_dir/helpInfo.sh
