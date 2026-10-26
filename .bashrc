@@ -4,9 +4,9 @@
 export delimiter="============================================================================================="
 
 # 默认环境路径
-export dev_env_dir="/d/github_ssh/MyDevEnv"
+export dev_env_dir="/mnt/d/github_ssh/MyDevEnv"
 
-export MSYS=winsymlinks:nativestrict
+# export MSYS=winsymlinks:nativestrict
 export BASH_LIB_PATH="$dev_env_dir/.bash_lib"
 export PATH="$BASH_LIB_PATH:$PATH"
 export PATH=/d/Tools/ARM_GCC/bin/:/d/msys64/usr/bin:/d/msys64/mingw64/bin:/d/msys64/ucrt64/bin:"/c/Program Files/GitHub CLI/":/c/windows/system32:"/d/Program Files/Putty/":/d/github_ssh/python_pandas_csv/kpi_script:$PATH
@@ -69,26 +69,6 @@ source $dev_env_dir/functions.sh
 # source $dev_env_dir/ssh-agent.sh
 
 #############################################################################################
-# 重写 ln 命令：-s 创建目录自动用 Windows Junction，普通权限可用
-ln() {
-    # 检测到 -s 参数时，走 mklink /J 目录联接
-    if [ "$1" = "-s" ]; then
-        src="$2"
-        dest="$3"
-
-        # 把 POSIX 路径转成 Windows 路径（mklink 必须用 Windows 路径）
-        src_win=$(cygpath -w "$src")
-        dest_win=$(cygpath -w "$dest")
-
-	# //c 绕过MSYS路径转换，正确传递 /c 参数给cmd.exe
-        /c/Windows/System32/cmd.exe //c mklink /J "$dest_win" "$src_win"
-    else
-        # 其他参数走原生 ln 命令，保持原有功能
-        command ln "$@"
-    fi
-}
-
-#############################################################################################
 # help信息在此处扩展添加
 helpList=("alias: a" "helpInfo: hi" "functions: f" "list_color_functions: lc")
 
@@ -112,10 +92,10 @@ if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
 else
     color_echo "PURPLE" "\$PS1=$PS1"
     # 测试 SSH 连接 GitHub
-    echo "$delimiter"
-    color_echo "ORANGE" "ssh -T git@github.com:"
-    ssh -T git@github.com
-    echo "$delimiter"
+    # echo "$delimiter"
+    # color_echo "ORANGE" "ssh -T git@github.com:"
+    # ssh -T git@github.com
+    # echo "$delimiter"
 
     echo "📂 切换到目录：$dev_env_dir"
     ls *.md -1 2>/dev/null || color_echo "RED" "📄 No .md files found in $dev_env_dir"
@@ -134,7 +114,7 @@ else
         fi
 
         # 转换路径+查版本+输出分隔符（处理空格路径）
-        cygpath -w "$(which "$tool")"
+        wslpath -w "$(which "$tool")"
         "$tool" --version
     }
 
@@ -146,12 +126,12 @@ else
 
     
     # ========================== 检查 gh 登录状态
-    color_echo "GREEN" "gh auth status:" 
-    gh auth status
+    # color_echo "GREEN" "gh auth status:" 
+    # gh auth status
 
     # 测试列出仓库
-    color_echo "GREEN" "gh repo list:"
-    gh repo list
+    # color_echo "GREEN" "gh repo list:"
+    # gh repo list
 
     blink_color_echo "GREEN" "*******  git-bash  *******"
     color_echo "BLUE" "$(cat ~/.minttyrc)"

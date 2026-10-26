@@ -29,11 +29,11 @@ webs=("web https://github.com"
 
 # 定义 winmtr 测试任务列表（格式："备注|命令"）
 declare -a WINMTR_TASKS=(
-    "测试 github.com 延迟|winmtr -i 1 -s 1024 -n github.com"
-    "测试 www.yyzlab.com.cn 延迟|winmtr -i 1 -s 1024 -n www.yyzlab.com.cn"
-    "测试腾讯云新加坡 CDN 主节点|winmtr -i 1 -s 1024 -n 43.174.246.25"
-    "测试腾讯云新加坡 CDN 备用节点|winmtr -i 1 -s 1024 -n 43.174.247.25"
-    "测试杭州阿里云内地服务器|winmtr -i 1 -s 1024 -n 39.103.225.56"
+    "测试 github.com 延迟|mtr -r -w -c 10 github.com"
+    "测试 www.yyzlab.com.cn 延迟|mtr -r -w -c 10 www.yyzlab.com.cn"
+    "测试腾讯云新加坡 CDN 主节点|mtr -r -w -c 10 43.174.246.25"
+    "测试腾讯云新加坡 CDN 备用节点|mtr -r -w -c 10 43.174.247.25"
+    "测试杭州阿里云内地服务器|mtr -r -w -c 10 39.103.225.56"
 )
 
 # 定义退出控制变量
@@ -46,8 +46,8 @@ DEFAULT_SIGINT_TRAP=""
 handle_sigint() {
     # echo -e "\n\n⚠️  检测到 Ctrl+C，正在退出..."
     export PS1="$ORIG_PS1"
-    pkill -f "winmtr -i 1 -s 1024 -n" >/dev/null 2>&1
-    echo -e "👋 已退出 winmtr 测试模式，恢复原始提示符"
+    pkill -f "mtr -r -w -c" >/dev/null 2>&1
+    echo -e "👋 已退出 mtr 测试模式，恢复原始提示符"
     
     # 恢复系统默认的 SIGINT 处理
     trap "$DEFAULT_SIGINT_TRAP" SIGINT
@@ -88,15 +88,15 @@ show_task_list() {
     echo "Input cmd No( 1~${#WINMTR_TASKS[@]}, q/quit ):"
 }
 
-# 函数：执行选中的任务（winmtr 后台运行+重定向输出）
+# 函数：执行选中的任务（mtr 后台运行+重定向输出）
 execute_task() {
     local selected_num=$1
     
     # 退出逻辑
     if [[ "$selected_num" == "q" || "$selected_num" == "quit" ]]; then
         export PS1="$ORIG_PS1"
-        pkill -f "winmtr -i 1 -s 1024 -n" >/dev/null 2>&1
-        echo -e "\n👋 退出 winmtr 测试模式"	
+        pkill -f "mtr -r -w -c" >/dev/null 2>&1
+        echo -e "\n👋 退出 mtr 测试模式"	
 	restore_sigint_trap
 	EXIT_FLAG=1
 	
@@ -119,9 +119,9 @@ execute_task() {
     # 拆分命令和备注
     task_command=$(echo "${WINMTR_TASKS[$task_index]}" | cut -d'|' -f2)
     task_note=$(echo "${WINMTR_TASKS[$task_index]}" | cut -d'|' -f1)
-    # 生成临时日志文件（避免 winmtr 输出占用终端）
-    log_file="/tmp/winmtr_${task_index}_$(date +%s).log"
-    # 执行 winmtr：后台运行 + 输出重定向到日志文件
+    # 生成临时日志文件（避免 mtr 输出占用终端）
+    log_file="/tmp/mtr_${task_index}_$(date +%s).log"
+    # 执行 mtr：后台运行 + 输出重定向到日志文件
     nohup $task_command & > "$log_file" 2>&1 &
     # 下一次的命令输入提示
     show_task_list

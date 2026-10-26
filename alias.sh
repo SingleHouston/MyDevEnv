@@ -16,5 +16,6 @@ alias grmt='git remote -v'
 alias grst='git reset'
 alias gs='git status'
 ####### ultils #######
-alias python='winpty python.exe'
-alias py='winpty py.exe'
+alias python='python3'
+alias py='python3'
+alias winmtr='mtr'
