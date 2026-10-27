@@ -101,7 +101,7 @@ else
     ls *.md -1 2>/dev/null || color_echo "RED" "📄 No .md files found in $dev_env_dir"
     echo "$delimiter"
 
-    toolLists=("git" "gh" "gcc" "g++" "make" "python" "arm-none-eabi-gcc")
+    toolLists=("git" "gh" "gcc" "g++" "make" "python3" "arm-none-eabi-gcc")
     ############## 打印工具信息函数
     print_tool_info() {
         local tool="$1"  # 函数内可用local
