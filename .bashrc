@@ -92,10 +92,10 @@ if [[ -n "$PS1" && "$0" =~ bash && -z "${BASH_SOURCE[1]}" ]]; then
 else
     color_echo "PURPLE" "\$PS1=$PS1"
     # 测试 SSH 连接 GitHub
-    # echo "$delimiter"
-    # color_echo "ORANGE" "ssh -T git@github.com:"
-    # ssh -T git@github.com
-    # echo "$delimiter"
+    echo "$delimiter"
+    color_echo "ORANGE" "ssh -T git@github.com:"
+    ssh -T git@github.com
+    echo "$delimiter"
 
     echo "📂 切换到目录：$dev_env_dir"
     ls *.md -1 2>/dev/null || color_echo "RED" "📄 No .md files found in $dev_env_dir"
