@@ -17,8 +17,10 @@ CMD_MANUAL=(
   ["git|拉取远程代码"]="git pull origin 分支名              # 拉取指定远程分支代码"
   ["git|推送代码"]="git push origin 分支名                  # 推送本地分支到远程"
   ["git|提交修改"]="git commit -m '提交信息'                # 提交暂存区修改"
-  ["git|查询远程库"]="git remote -v                       # Manage the set of repositories ("remotes") whose branches you track."
-  ["git|设置远程库url"]="git remote set-url origin x.git  # 设置远程库url路径，用于提交代码到该库"
+  ["git|查询远程库"]="git remote -v                         # Manage the set of repositories ("remotes") whose branches you track."
+  ["git|设置远程库url"]="git remote set-url origin x.git    # 设置远程库url路径，用于提交代码到该库"
+  ["git|设置git环境参数"]="git config [list/get/set/unset]  # List or Get and set repository or global options"
+  ["git|设置用户名邮箱"]="git config user.name/email "xxx"  # 设置用户名和邮箱参数，默认范围:local repository，可选--global"
 
   # github开发步骤
   ["github|github开发流程"]="github_steps()                 # 执行函数查看具体步骤"
