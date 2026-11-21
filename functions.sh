@@ -463,7 +463,7 @@ function vi_cheatsheet() { # vi/vim 常用快捷键查询函数（可直接在�
     echo -e "  ${GREEN}:set nonu${RESET} → 隐藏行号"
 }
 
-pylink() {  # 用法: pylink 新脚本.py
+function pylink() {  # 用法: pylink 新脚本.py
   for f in "$@"; do
     grep -q '^#!' "$f" || sed -i '1i #!/usr/bin/env python3' "$f"
     ln -sf "$(readlink -f "$f")" ~/bin/"$(basename "$f" .py)" && echo "已注册: $(basename "$f" .py)"
