@@ -11,8 +11,8 @@ declare -A CMD_MANUAL
 CMD_MANUAL=(
   # Git 相关（主题：git）
   ["git|初始化本地git仓库"]="git init                       # 初始化本地git仓库"
-  ["git|设置用户名"]="git config user.name "Peter Wang"     # 设置用户名default:--local, optional:--global"
-  ["git|设置邮箱"]="git config user.email "aaa@xxx.com"     # 设置邮箱，default:--local, optional:--global"
+  ["git|设置用户名"]="git config user.name \"Peter Wang\"   # 设置用户名default:--local, optional:--global"
+  ["git|设置邮箱"]="git config user.email \"aaa@xxx.com\"   # 设置邮箱，default:--local, optional:--global"
   ["git|关联远端仓库:ssh"]="git remote add origin           # git remote add origin git@github.com:SingleHouston/wav-player.git"
   ["git|关联远端仓库:http"]="git remote add origin          # git remote add origin http://github.com/SingleHouston/wav-player.git"
   ["git|查看分支"]="git branch -a                           # 查看本地+远程所有分支"
@@ -22,11 +22,9 @@ CMD_MANUAL=(
   ["git|拉取远程代码"]="git pull origin 分支名              # 拉取指定远程分支代码"
   ["git|推送代码"]="git push origin 分支名                  # 推送本地分支到远程"
   ["git|提交修改"]="git commit -m '提交信息'                # 提交暂存区修改"
-  ["git|查询远程库"]="git remote -v                         # Manage the set of repositories ("remotes") whose branches you track."
+  ["git|查询远程库"]="git remote -v                         # Manage the set of repositories (\"remotes\") whose branches you track."
   ["git|设置远程库url"]="git remote set-url origin x.git    # 设置远程库url路径，用于提交代码到该库"
   ["git|设置git环境参数"]="git config [list/get/set/unset]  # List or Get and set repository or global options"
-  ["git|设置用户名邮箱"]="git config user.name/email "xxx"  # 设置用户名和邮箱参数，默认范围:local repository，可选--global"
-
   # github开发步骤
   ["github|github开发流程"]="github_steps()                 # 执行函数查看具体步骤"
   ["github|github仓库"]="gh repo list                       # 显示github仓库列表 # 输出json格式到文件 --json name | jq > gh_repo.json"
