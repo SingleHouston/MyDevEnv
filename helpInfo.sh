@@ -10,6 +10,11 @@
 declare -A CMD_MANUAL
 CMD_MANUAL=(
   # Git 相关（主题：git）
+  ["git|初始化本地git仓库"]="git init                       # 初始化本地git仓库"
+  ["git|设置用户名"]="git config user.name "Peter Wang"     # 设置用户名default:--local, optional:--global"
+  ["git|设置邮箱"]="git config user.email "aaa@xxx.com"     # 设置邮箱，default:--local, optional:--global"
+  ["git|关联远端仓库:ssh"]="git remote add origin           # git remote add origin git@github.com:SingleHouston/wav-player.git"
+  ["git|关联远端仓库:http"]="git remote add origin          # git remote add origin http://github.com/SingleHouston/wav-player.git"
   ["git|查看分支"]="git branch -a                           # 查看本地+远程所有分支"
   ["git|切换分支"]="git checkout 分支名                     # 切换到指定分支"
   ["git|克隆Repo"]="git clone git@github.com:user/xxx.git   # 克隆指定xxx库(SSH方式)"
