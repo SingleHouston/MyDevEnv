@@ -470,6 +470,10 @@ function pylink() {  # 用法: pylink 新脚本.py
   done
 }
 
+function pyUtils() { # 直接查 ~/bin 下所有指向 .py 的链接
+       ls -l ~/bin | grep '\.py'
+}
+
 functions() { # 打印自定义函数
         color_echo "BLUE" "$(grep '^function [a-zA-Z0-9_]*() *{' $dev_env_dir/functions.sh)"
 }
